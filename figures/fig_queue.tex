@@ -1,0 +1,69 @@
+\begin{figure}
+\tikzset{
+block/.style={draw, fill=blue!20, minimum width=9pt, minimum
+height=13pt, node
+distance=0pt}}
+
+\begin{tikzpicture}
+\node[block] (tail) {};
+\node[block, right =of tail] (n1){};
+\node[block, right=of n1] (n2) {};
+\node[block, right=of n2] (n3) {};
+\node[block, right=of n3] (n4) {};
+\node[block, right=of n4] (n5) {};
+\node[block, right=of n5] (n6) {};
+\node[block, right=of n6] (head) {};
+
+\node [below=1pt of head.south east, node distance=3pt] {\figfont{head}};
+\node [below=1pt of tail.south west] {\figfont{tail}};
+\node [above=1pt of n4.north] {\figfont{\bf work-stealing queue}};
+\draw [-]  ($(tail.north west) + (-0.5, 0)$) -- (tail.north west);
+\draw [-]  ($(tail.south west) + (-0.5, 0)$) -- (tail.south west);
+
+\draw[->] (head.east) -- ($(head.east) + (30pt, 0)$) {} node[very near end, sloped, above] {\figfont{thief threads}};
+\draw[->, dashed] ($(tail.north west) + (-1.75, 0)$)  .. controls ($(tail.north
+west) + (-1.2, 0)$) .. ($(tail.north west) + (0, -4pt)$) {} node [very near start, sloped, above] {\figfont{local thread}};
+\draw[<-] ($(tail.south west) + (-1.75, 0)$) .. controls ($(tail.south west) +
+(-1.2, 0)$)  .. ($(tail.south west) + (0, 4pt)$) {} node [very near start,
+sloped, below] {\figfont{local thread}};
+
+\node[block, right=150pt of head] (atail) {};
+\node[block, right =of atail] (an1){};
+\node[block, right=of an1] (an2) {};
+\node[block, right=of an2] (an3) {};
+\node[block, right=of an3] (an4) {};
+\node[block, right=of an4] (an5) {};
+\node[block, right=of an5] (an6) {};
+\node[block, right=of an6] (ahead) {};
+
+\node [below=1pt of ahead.south east, node distance=3pt] {\figfont{head}};
+\node [below=1pt of atail.south west] {\figfont{tail}};
+\node [above=1pt of an4.north] {\figfont{\bf suspended-task queue}};
+\draw [-]  ($(atail.north west) + (-0.5, 0)$) -- (atail.north west);
+\draw [-]  ($(atail.south west) + (-0.5, 0)$) -- (atail.south west);
+
+\draw[->] ($(ahead.east) + (0, 1.5pt)$) -- ($(ahead.east) + (30pt, 1.5pt)$) {} node[very near end, sloped, above] {\figfont{thief threads}};
+\draw[->] ($(ahead.east) + (0, -1.5pt)$) -- ($(ahead.east) + (30pt, -1.5pt)$) {}
+node[very near end, sloped, below] {\figfont{local thread}};
+\draw[->, dashed] ($(atail.west) + (-1.75, 0)$) -- (atail.west) {}
+node [very near start, sloped, above] {\figfont{local thread}};
+
+\coordinate  (A) at ($(tail.south west) + (1.5, -20pt)$);
+\coordinate [label=right:{{\figfont{put a task into the task queue}}}] (B) at
+($(tail.south west) + (2.0, -20pt)$);
+\draw [->, dashed] ( A) --(B);
+
+\coordinate  (C) at ($(atail.south west) + (-1.5, -20pt)$);
+\coordinate [label=right:{{\figfont{pop a task from the task queue}}}]
+(D) at ($(atail.south west) + (-1, -20pt)$){};
+\draw[->] (C) --(D);
+
+
+\end{tikzpicture}
+\caption{The work-stealing queue and suspended-task queue in {\name}.
+  Notice that each thread has its own work-stealing queue and
+  suspended-task queue. Also note that work-stealing queue and
+  suspended-task queue have different behaviors on pushing and poping,
+  which give them different performance.}
+\label{fig:queue}
+\end{figure}

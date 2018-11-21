@@ -1,0 +1,36 @@
+\begin{tikzpicture}[
+    >=stealth',
+  ]
+
+\tikzset{
+  coord/.style={coordinate, on grid, node distance=6mm and 25mm},
+}
+
+\node[smt] (i) {\fcode{i}};
+\node[smt] (if) at($(i.east) + (3, 0)$) {\fcode{if(is\_odd(i))}};
+\node[smt] (tlock) at ($(if.north east) + (2.3, 0.4)$) {\fcode{ms1[i].lock();}};
+\node[smt] (flock) at ($(if.south east) + (2.3, -0.4)$) {\fcode{ms2[i].lock();}};
+
+\node[smt] (gc) at($(i.north) + (0, 1.5)$) {\fcode{g\_counter}};
+\node[smt,fill=lightgray] (gp) at ($(gc.east) + (1.5, 0)$) {\fcode{g\_counter++;}};
+\node[smt] (glock) at ($(gp.east) + (2.7, 0)$) {\fcode{ms[g\_counter\%2].lock();}};
+
+\draw [->] (gc)        to  (gp);
+\draw[->] (gp)  to (glock);
+\draw[->] (i) to  (if);
+\draw[->] (i) to [out=15, in = 180] (tlock);
+\draw[->] (i) to [out=-15, in=180] (flock);
+
+
+\draw[->, red, dashed] (if) to [out= 0, in=180] node[black]{T} (tlock) ;
+\draw[->, red, dashed] (if) to [out= 0, in=180] node [black]{F} (flock) ;
+
+\node[coord] (top) at($(glock.north east) + (2, 0)$){};
+\node[coord] (bot) at(flock.south east -| top) {};
+
+\node[coord] (p1) at($(bot) !.25! (top) $){};
+\node[coord] (p2) at($(bot) !.5! (top) $){};
+\draw[->] (p1) to  ($(p1.east) + (1, 0)$) node[right]{ 数据依赖 };
+\draw[->, red, dashed] (p2) to  ($(p2.east) + (1, 0)$) node[black, right]{
+控制依赖};
+\end{tikzpicture}

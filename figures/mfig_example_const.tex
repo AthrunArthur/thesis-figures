@@ -1,0 +1,55 @@
+\begin{figure*}
+  \centering
+  \begin{tikzpicture}[scale=\exfigscale, every node/.style={scale=\exfigscale}]
+    \node[codebox] (box){
+      \begin{minipage}{.95\textwidth}
+        \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\kw{using namespace} concurrency;
+\kw{struct} C\{
+ \kw{void} operator() ()\{ ...\}
+\};
+C func;
+parallel_invok(func);
+        \end{Verbatim}
+      \end{minipage}
+    };
+    \node[fancytitle, right=10pt] at (box.north west) {代码片段};
+
+    \node[errorbox,text width=.95\textwidth] (error) [below = 10pt of box] {
+      \begin{minipage}{.90\textwidth}
+        \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\fp{\ldots{}\textbackslash{}include\textbackslash{}ppl.h}(127): error C3848: expression having type `const C'
+ would lose const-volatile qualifiers in order to call `void C::operator ()()'
+\fp{\ldots{}\textbackslash{}include\textbackslash{}concrt.h}(4378) : see reference to function template instantiation
+ `void Concurrency::task_handle<_Function1>::operator ()(void) const' being compiled
+\fp{\ldots{}\textbackslash{}include\textbackslash{}ppl.h}(948) : see reference to function template instantiation
+ `void Concurrency::_Parallel_invoke_impl<_Function1,_Function2>
+  (const _Function1 &,const _Function2 &)' being compiled
+        \end{Verbatim}
+      \end{minipage}
+    };
+
+    \node[fancytitle, right=10pt] at (error.north west) {编译错误信息};
+    \path let
+      \p1=(box.west),
+      \p2=(error.east)
+      in node [
+        errorbox,
+        below=10pt of error.south west,
+        anchor=north west,
+        minimum width=\x2-\x1-\pgflinewidth,
+        text width=\x2-\x1-\pgflinewidth-2pt,
+        inner sep = 1pt,
+        inner ysep=8pt
+    ] (comp) {
+        {\small
+If I make the C::operator()() const, I lose a lot of the benefits of a function object, namely, that its state is maintained internally between calls. Is there a way that I could invoke non-const function objects in parallel?
+}
+    };
+
+    \node[fancytitle, right=10pt] at (comp.north west) {用户意见};
+
+  \end{tikzpicture}
+  \caption{一个关于\cpp{const}修饰符的例子\cite{pplconst}。修复该问题耗费约26小时。 The correcting approach is to add \cpp{const} to \cpp{C::operator()} and to capture the references or pointers of the varables the user need to access.}
+  \label{fig:const}
+\end{figure*}

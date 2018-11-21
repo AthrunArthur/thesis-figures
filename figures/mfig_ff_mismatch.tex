@@ -1,0 +1,29 @@
+\begin{figure*}
+  \centering
+\begin{tikzpicture}[scale=\exfigscale, every node/.style={scale=\exfigscale}]
+  \node[codebox] (box){
+    \begin{minipage}{.3\textwidth}
+      \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\kw{int} f(\kw{int} n = 0);
+ff::paragroup pg;
+pg.for_each(0, 100, f());
+     \end{Verbatim}
+      \end{minipage}
+  };
+  \node[fancytitle, right=10pt] at (box.north west) {Code snipt};
+
+  \node[errorbox,text width=.65\textwidth] (error) [right = 1pt of box] {
+    \begin{minipage}{.45\textwidth}
+      \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]   
+\fp{main.cpp}:11:27:   required from here
+\fp{\ldots{}/para/paragroup.h}:201:11: error: static assertion failed: 
+ \msg{The 3rd parameter should be callable, maybe a function, or a functor.}
+     \end{Verbatim}
+      \end{minipage}
+    };
+
+    \node[fancytitle, right=10pt] at (error.north west) {Compiler error messages};
+  \end{tikzpicture}
+  \caption{A misusage of {\name}. Notice that it is easy for the user to find out that \cpp{f()} should be \cpp{f} by following the compiler error message.}
+  \label{fig:ff-mistype}
+\end{figure*}

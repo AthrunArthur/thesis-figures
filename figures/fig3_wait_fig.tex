@@ -1,0 +1,55 @@
+\begin{tikzpicture}
+
+\tikzset{
+  coord/.style={coordinate, on grid, node distance=6mm and 25mm},
+}
+
+\draw [->] (0, 5) -- (0, 0);
+\node at (0, 5.5) {线程1};
+
+\draw [->] (2, 5) -- (2, 0);
+\node at (2, 5.5) {线程2};
+
+\draw [->] (4, 5) -- (4, 0);
+\node at (4, 5.5) {线程3};
+
+\node (a1) at (-2, 4.5) {\code{para<> a, b;}};
+\node (a2) at (-2, 4) {\code{a(f1);}};
+\node (a3) at (-2, 3.5) {\code{b[a](f2);}};
+\node (a4) at (-2, 3) {\code{f3();}};
+\node (a5) at (-2, 2) {\code{...}};
+
+\node [coord] (l1) at (0, 5){};
+\node [coord] (l2) at (2, 5){};
+\node [coord] (l3) at (4, 5){};
+\node [coord] (c1) at (a1.east -| l1){};
+\draw [->] (a1.east) to (c1);
+\node [coord] (c2) at (a2.east -| l1){};
+\draw [->] (a2.east) to (c2);
+\node [coord] (c3) at (a3.east -| l1){};
+\draw [->] (a3.east) to (c3);
+\node [coord] (c4) at (a4.east -| l1){};
+\draw [->] (a4.east) to (c4);
+
+\draw [->, dashed] (c2) -- ++($(4, -1)$) node[pos=0.2,above]{调度};
+\draw [->, dashed] (c3) -- ++($(2, -0.5)$) node[midway,above]{调度};
+
+\node [coord] (cl2) at ($(c2) + (4, -1.7)$){};
+\draw [decorate,decoration={brace,raise=2pt}]
+($(c2) + (4, -1)$) --  (cl2) node[midway,
+right=2pt]{\code{f1}};
+
+\node [coord] (cl24) at ($(cl2) + (-2, -0.5)$){};
+\draw [decorate,decoration={brace,raise=2pt, mirror}]
+($(c3) + (2, -0.5)$) --  (cl24) node[midway,
+left=2pt]{阻塞};
+
+\draw [->, dashed] (cl2) -- (cl24) node[pos=0.2,above]{通知};
+
+\node [coord] (cl25) at ($(cl24) + (0, -0.8)$){};
+
+\draw [decorate,decoration={brace,raise=2pt, mirror}]
+($(cl24) + (0, -0.1)$) --  (cl25) node[midway,
+left=2pt]{\code{f2}};
+
+\end{tikzpicture}

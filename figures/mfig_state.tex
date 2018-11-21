@@ -1,0 +1,19 @@
+\begin{figure}
+\tikzstyle{param}=[rectangle, fill=blue!50, inner sep=0pt, minimum size=0.6cm]
+\tikzstyle{ret}=[rectangle, draw=black!100, inner sep=0pt, minimum size=0.6cm]
+\tikzstyle{val}=[rectangle, inner sep=0pt, minimum size=0.6cm]
+\centering
+\begin{tikzpicture}
+\node[val] (d)  {\figfont{\state{para}}};
+\node[val] (w) [right=4.2em of d] {\figfont{\state{W}}};
+\node[val] (c) [right=4.2em of w] {\figfont{\state{C}}};
+\node[val] (t) [right=4.2em of c] {\figfont{\state{T}}};
+
+\draw[-stealth, thick] (d) -- (w) node[below,text centered,midway] {\figfont{\cpp{operator []}}};
+\draw[-stealth, thick] (w) -- (c) node[below,text centered,midway]{\figfont{\cpp{operator ()}}};
+\draw[-stealth, thick] (c) --  (t) node[below,text centered,midway]{\figfont{\cpp{then}}};
+\draw[-stealth, thick] (d) to [out=20, in=160]node[above,text centered,midway]{\figfont{\cpp{operator ()}}} (c) ;
+\end{tikzpicture}
+\caption{State transition of the programming conventions. Each node represents a state which has limited methods. Each edge represents a valid methods.}
+\label{fig:state}
+\end{figure}

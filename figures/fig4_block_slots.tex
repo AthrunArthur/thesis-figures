@@ -1,0 +1,34 @@
+\begin{figure}[!htb]
+  \centering
+{
+  \setlength{\tabcolsep}{0pt}
+\begin{tabular}{cccc}
+      \subfigure[$P=4$]{
+        \scalebox{0.9}{
+          \begin{tikzpicture}
+            \input{../figures/poss4.tex}
+          \end{tikzpicture}}
+      } &
+      \subfigure[$P=8$]{
+        \scalebox{0.9}{
+          \begin{tikzpicture}
+            \input{../figures/poss8.tex}
+          \end{tikzpicture}}
+      } &
+      \subfigure[$P=16$]{
+        \scalebox{0.9}{
+          \begin{tikzpicture}
+            \input{../figures/poss16.tex}
+          \end{tikzpicture}}
+      } &
+      \subfigure[$P=64$]{
+        \scalebox{0.9}{
+          \begin{tikzpicture}
+            \input{../figures/poss64.tex}
+          \end{tikzpicture}}
+      }    \\
+\end{tabular}
+  }
+  \caption{ {\bf Blocking time slots in different number of processors with different number of locks}}
+  \label{fig-blocking}
+\end{figure}

@@ -1,0 +1,39 @@
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[scale=\exfigscale, every node/.style={scale=\exfigscale}]
+    \node[codebox] (box){
+      \begin{minipage}{.85\textwidth}
+\begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\kw{using namespace} tbb;
+\kw{typedef} concurrent_hash_map<\kw{int}, string> CHM_t;
+CHM_t::accessor o;
+CHM_t::const_accessor t;
+hashmap.insert(o,200);
+hashmap[o] = "here";
+hashmap.find(t,200);
+\end{Verbatim}
+\end{minipage}
+};
+\node[fancytitle, right=10pt] at (box.north west) {代码片段};
+    \path let
+      \p1=(box.west),
+      \p2=(box.east)
+      in node [
+        errorbox,
+        below=10pt of box.south west,
+        anchor=north west,
+        minimum width=\x2-\x1-\pgflinewidth,
+        text width=\x2-\x1-\pgflinewidth-2pt,
+        inner sep = 1pt,
+        inner ysep=8pt
+    ] (comp) {
+        {\small
+Why is my program freezing if I use ``read only'' \cpp{const\_accessors}?
+It seems to be locking up, from the API description it seems to be OK to have one accessors and multiple \cpp{const\_accessors}, (writer, reader).
+        }
+      };
+      \node[fancytitle, right=10pt] at (comp.north west) {用户意见};
+\end{tikzpicture}
+\caption{一个忘记调用特定方法的例子\cite{tbbwapideadlock}。修复该错误耗费约1小时。The root cause is that \cpp{accessor} holds an implicit lock and the user should call \cpp{release} to release the lock before calling \cpp{find}.}
+\label{fig:wapi}
+\end{figure}

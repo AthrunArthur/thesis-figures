@@ -1,0 +1,10 @@
+  \centering
+\begin{lstlisting}[mathescape]
+int fib(int n){
+  if(n < MIN_PARA_N)  return serial_fib(n);
+  ff::para<int> a, b;
+  a([n](){return fib(n-1);});
+  b([n](){return fib(n-2);});
+  return (a&&b).then([](int m,int n){return m+n;});
+}
+\end{lstlisting}

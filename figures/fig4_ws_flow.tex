@@ -1,0 +1,68 @@
+\begin{tikzpicture}[%
+%    >=triangle 60,         % Nice arrows; your taste may be different
+    >=stealth',
+   ]
+
+\tikzset{
+    base/.style={draw,  on grid, align=center, minimum height=3ex},
+    proc/.style={base, rectangle},
+    itproc/.style={proc, fill=lightgray},
+    test/.style={base, diamond, aspect=2, text width=5em},
+    term/.style={proc, rounded corners},
+    coord/.style={coordinate, on grid, node distance=2mm and 25mm},
+    lcoord/.style={coordinate, on grid, node distance=15mm and 28mm},
+    nmark/.style={draw, cyan, circle, font={\sffamily\bfseries}},
+    norm/.style={->, draw, lcnorm},
+    free/.style={->, draw, lcfree},
+    cong/.style={->, draw, lccong},
+    it/.style={font={\small\itshape}}
+}
+
+\node [proc]    (t1) {\kw{if} \fcode{is\_running}};
+\node [itproc]   at($(t1.south) + (0, -0.8)$)  (i1)
+{\figfont{reschedule counter} $\Leftarrow$  \figfont{0} \\
+  \figfont{steal counter} $\Leftarrow$ \figfont{0}};
+\node [proc]    (t2)  at($(i1.east) + (2.4, 0)$) {\fcode{t$\Leftarrow$dequeue(Q)}};
+\node [proc, anchor=center]    (t3) at ($(i1.south)+(0,-1)$) {\fcode{t\_record\_lock($\cdots$)}\\ \fkw{if} \fcode{t\_checker($\cdots$)}};
+\node [itproc]    (t4) at ($(t3.south) + (0, -0.8)$) {\figfont{Reschedule
+    attempts}\\ \figfont{reach limits?}};
+\node [proc]    (t7)  at($(t4.west) + (-2.4, 0)$) {\fcode{execute\_task(t)}\\ \fcode{t\_erase\_lock($\cdots$)}};
+
+\node [itproc]    (t5) at($(t4.east) + (2.7, 0)$)
+{\fcode{t\_erase\_lock($\cdots$)} \\ \fcode{push\_front(Q, t)}\\ {\figfont{Steal attempts reach limits?}}};
+\node[itproc]  at ($(t3.east -| t5.north) $) (t6)
+{\fcode{t$\Leftarrow$steal()}};
+
+\node[fancytitle] at ($(t4.north west) + (0.2, 0.1)$) {\footnotesize{B1}};
+\node[fancytitle] at ($(t5.north west) + (0.2, 0.1)$) {\footnotesize{B2}};
+\node[fancytitle] at ($(t6.north west) + (0.2, 0.1)$) {\footnotesize{B3}};
+
+\node [term]  at($(t1.east) + (2.4, 0)$)   (end) {end};
+
+\node [coord] (c1) at($(t7.west) + (-0.1, 0)$)  {};
+\node [coord, right=of t6] (c2) {};
+\node [lcoord] (c3) at($(t5.east) + (0.3, 0)$){};
+\node [coord] (c4) at($(t7.north east) + (-0.5, 0)$) {};
+\node [coord] at($(t4.south) + (-1.3, 0)$) (c5) {};
+\node [coord] at($(t4.south) + (1.4, 0)$) (c6) {};
+\node [coord] at($(t2.south) + (0, -0.3)$) (ct2t3){};
+
+
+\draw [->] (t1.south) -- (i1) node[near start, left] {\figfont{Y}};
+\draw [->] (i1) -- (t2);
+\draw [->] (t2.south) -- (ct2t3) -| (t3.north);
+\draw [->] (t3.south) -- (t4) node[near start,right] {\figfont{N}};
+\draw [->] (t3.west) -- (c4 |- t3.west) -- (c4) node[near start, left]
+{\figfont{Y}};
+\draw [->] (t4.west) -- (t7.east) node [near start, above] {\figfont{Y}};
+\draw [->] (t4.east) -- (t5.west) node [near start, above] {\figfont{N}};
+\draw [->] (t5.north) -- (t6) node[near start, right] {\figfont{N}};
+\draw [->] (t5.east) -- (c3) |- (t2.east) node[near start,right] {\figfont{Y}};
+\draw [->] (t6.west) -- (t3.east);
+\draw [->] (t7.north) -- (t7.north |- t1) -- (t1);
+\draw [->] (t1.east) -- (end) node[near start, above] {\figfont{N}};
+
+\end{tikzpicture}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+

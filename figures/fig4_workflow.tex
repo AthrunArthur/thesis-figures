@@ -1,0 +1,46 @@
+
+
+\begin{tikzpicture}[
+     >=stealth',
+     ]
+\tikzset{
+  base/.style={draw, on grid, align=center, minimum height=4ex},
+  proc/.style={base, rectangle},
+  gproc/.style={proc, fill=lightgray},
+  coord/.style={coordinate, on grid, node distance=6mm and 25mm},
+}
+
+\node [proc]  (sc) {\figfont{源代码}};
+\node [proc]  (lb) at ($(sc.east) + (1.8, 0)$) {\figfont{LLVM字节码}};
+\node [gproc] (cg) at($(lb.east) + (1.8, 0)$) {\figfont{检查器生成器}};
+\node [proc]  (lc) at($(cg.east) + (1.8, 0)$) {\figfont{检查器函数}};
+\node [gproc] (rw) at ($(lc.south) + (0, -0.8)$) {\figfont{字节码重写器}};
+\node [proc] (bg) at ($(rw.south) + (0, -0.8)$) {\figfont{{\name} 二进制程序}};
+
+\node [proc, densely dashed ] (obg) at ($(bg.west) + (-3.5, 0)$)
+{\figfont{  原始二进制程序 }};
+\node [proc, densely dashed ]  (scheduler)  at($(obg.south) + (0, -1)$)
+{\figfont{传统调度器}};
+
+\node [gproc, align=center] (ff) at($(bg.south) + (0, -1)$) {\figfont{{\name}
+    集成窃取调度的调度器 }};
+
+\node [coord] (l1) at($(scheduler.west) + (-3, 0.8)$){};
+\node [coord] (l2) at($(ff.east) + (0.2, 0.8)$){};
+
+\node [align=center] at($(l1.north) + (1.4, 0.2)$) {\figfont{ 编译期 }};
+\node  at($(l1.north) + (1.4, -0.2)$) {\figfont{运行时}};
+
+\draw [-, dashed] (l1) -- (l2);
+
+\draw[->] (sc.east) -- (lb.west);
+\draw[->] (lb.east) -- (cg.west);
+\draw[->] (cg.east) -- (lc.west);
+\draw[->] (lc.south) -- (rw.north);
+\draw[->] (rw.south) -- (bg.north);
+\draw[->] (bg.south) -- (ff.north);
+
+\draw[->](sc.south) -- (sc.south |- obg.west) -- (obg.west);
+\draw[->] (obg.south) -- (scheduler.north);
+
+\end{tikzpicture}

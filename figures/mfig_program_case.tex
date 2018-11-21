@@ -1,0 +1,23 @@
+\begin{figure}
+\centering
+%\begin{tabular}{C{0.45\textwidth}C{0.45\textwidth}}
+{
+  \setlength{\tabcolsep}{0pt}
+\begin{tabular}{cc}
+\subfigure[\bh{MX}]{
+  \scalebox{0.9}{
+  \begin{tikzpicture}
+  \input{../figures/fig_matrix.tex}
+  \end{tikzpicture}}
+} &
+\subfigure[\bh{TR}]{
+  \scalebox{0.9}{
+  \begin{tikzpicture}
+  \input{../figures/fig_tree.tex}
+  \end{tikzpicture}}
+} \\
+\end{tabular}
+}
+\caption{Cumulative Distribution Function (CDF) of testers' time for programming with TBB and {\name}.}
+\label{fig:program}
+\end{figure}

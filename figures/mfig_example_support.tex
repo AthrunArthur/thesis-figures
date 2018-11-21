@@ -1,0 +1,33 @@
+\begin{figure*}
+\centering
+\begin{tikzpicture}[scale=\exfigscale, every node/.style={scale=\exfigscale}]
+  \node[codebox] (box){
+  \begin{minipage}{.85\textwidth}
+  \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\kw{struct} M\{
+ \kw{int} v;
+ \kw{double} d;
+\};
+tbb::mutex<M> b;
+     \end{Verbatim}
+      \end{minipage}
+  };
+  \node[fancytitle, right=10pt] at (box.north west) {代码片段};
+
+  \node[errorbox,text width=.85\textwidth] (error) [below = 10pt of box] {
+    \begin{minipage}{.45\textwidth}
+      \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\fp{\ldots{}/tbb/atomic.h}:220:34: error: implicit instantiation of undefined template
+  `tbb::internal::aligned_storage<M, 16>'
+\fp{\ldots{}/tbb/atomic.h}:405:16: note: in instantiation of template class
+  `tbb::internal::atomic_impl<M>'
+\fp{main.cpp}:11:23: note: in instantiation of template class `tbb::atomic<M>'
+     \end{Verbatim}
+      \end{minipage}
+    };
+
+    \node[fancytitle, right=10pt] at (error.north west) {编译错误信息};
+  \end{tikzpicture}
+  \caption{一个不支持类型的例子\cite{tbbatomic}。修复该错误耗费超过5天。Note that the error message exposes too many TBB library's internal details, which drawn the root cause that \cpp{tbb::atomic} only supports integral types and pointer types. }
+  \label{fig:nonsupport}
+\end{figure*}

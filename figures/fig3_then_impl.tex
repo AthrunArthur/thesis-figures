@@ -1,0 +1,22 @@
+\begin{lstlisting}[mathescape]
+template <class F, class AT1, class AT2>
+struct is_callable_with_args
+  : public std::false_type {};
+
+template <class Ret, class AT1, class AT2>
+struct is_callable_with_args<Ret ( * )(AT1, AT2), AT1, AT2>
+    : public std::true_type {};
+
+template <class Ret, class AT1, class AT2>
+struct is_callable_with_args<Ret(AT1, AT2), AT1, AT2>
+    : public std::true_type {};
+
+template <class Ret, class C, class AT1, class AT2>
+struct is_callable_with_args<Ret (C:: * )(AT1, AT2), AT1, AT2>
+    : public std::true_type {};
+
+template <class Ret, class C, class AT1, class AT2>
+struct is_callable_with_args<Ret (C:: * )(AT1, AT2) const, AT1, AT2>
+    : public std::true_type {};
+...
+\end{lstlisting}

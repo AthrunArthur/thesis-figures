@@ -1,0 +1,19 @@
+\documentclass[border=1mm, preview]{standalone}
+
+\def\StandaloneMode{}
+
+\input{../mainsty.tex}
+\input{../maintikz.tex}
+\input{../mainpgf.tex}
+\input{../data02.tex}
+\input{../data03.tex}
+\pagestyle{empty}
+
+
+\begin{document}
+\input{../code.tex}
+\graphicspath{{figures/}}
+
+{{TEX_HERE}}
+
+\end{document}

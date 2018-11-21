@@ -1,0 +1,33 @@
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\tikzset{
+  base/.style={draw, on grid, align=center, minimum height=4ex},
+  proc/.style={base, rectangle},
+  code/.style={on grid, align=center, minimum height=4ex},
+  coord/.style={coordinate, on grid, node distance=6mm and 25mm},
+}
+
+\node [proc] (t3) {\task{a\&\& (b || c)}};
+\node [proc] (a) at ($(t3.south) + (-1.5, -1)$) {\task(a)};
+\node [proc] (bc) at($(t3.south) + (1.5, -1)$) {\task{b || c}};
+\node [proc] (b) at ($(bc.south) + (-1.5, -1)$) {\task{b}};
+\node [proc] (c) at ($(bc.south) + (1.5, -1)$) {\task{b}};
+
+\node [code] at($(t3.east) + (2.5, 0)$) {\fcode{wait\_and<
+    para<Ta>, } \\ \fcode{wait\_or<para<Tb>, } \\ \fcode{para<Tc> > >}};
+\node [code] at($(a.east) + (1, 0)$) {\fcode{para<Ta>}};
+\node [code] at($(b.east) + (1, 0)$) {\fcode{para<Tb>}};
+\node [code] at($(bc.east) + (2, 0)$){\fcode{wait\_or<para<Tb>, } \\
+  \fcode{para<Tc> >}};
+\node [code] at($(c.east) + (1, 0)$) {\fcode{para<Tc>}};
+
+\draw [->] (t3) -- (a);
+\draw [->] (t3) -- (bc);
+\draw [->] (bc) -- (b);
+\draw [->] (bc) -- (c);
+\end{tikzpicture}
+\caption{A expression template of {\dexpr}, \task{a\&\&(b||c)}. Each node
+  shows a part of the {\dexpr}, and the type is on the right of each node.}
+\label{fig:dexpr}
+\end{figure}

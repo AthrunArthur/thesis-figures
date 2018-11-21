@@ -1,0 +1,27 @@
+\begin{figure*}
+\centering
+\begin{tikzpicture}[scale=\exfigscale, every node/.style={scale=\exfigscale}]
+  \node[codebox] (box){
+    \begin{minipage}{.85\textwidth}
+      \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+tbb::task_arena l(2);
+l.wait_until_empty();
+     \end{Verbatim}
+      \end{minipage}
+  };
+  \node[fancytitle, right=10pt] at (box.north west) {代码片段};
+
+  \node[errorbox,text width=.85\textwidth] (error) [below = 10pt of box] {
+    \begin{minipage}{.85\textwidth}
+      \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\fp{main.cpp}:34:11: error :
+  no member named `wait_until_empty' in `tbb::interface7::task_arena'
+     \end{Verbatim}
+      \end{minipage}
+    };
+
+    \node[fancytitle, right=10pt] at (error.north west) {编译错误信息};
+  \end{tikzpicture}
+  \caption{关于使用过时方法的例子\cite{tbboutdate}。修复该错误耗费约8.5小时。This is not tricky since the manual is also outdated, while the user was confused that the method was claimed available according to the manual.}
+  \label{fig:outdate}
+\end{figure*}

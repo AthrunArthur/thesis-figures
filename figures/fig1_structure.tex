@@ -1,0 +1,34 @@
+\begin{tikzpicture}
+\pgfmathsetmacro{\XMD}{0.7}
+\pgfmathsetmacro{\YMD}{1.3}
+\pgfmathsetmacro{\XTD}{2.8}
+\pgfmathsetmacro{\YTD}{0.8}
+
+\tikzset{
+  chapter/.style={draw, rectangle, on grid, align=center, minimum height=4ex},
+  ht/.style={draw, rectangle, on grid, align=center, minimum height=4ex,
+  clip,rounded corners=2ex},
+}
+
+\node [ht] (start) at(0, 0) {\figfont{绪论}};
+\node [chapter] (c1) at ($(start.south) + (0, -\YTD)$)
+{\figfont{任务并行编程中的误用特征研究}};
+
+\node [chapter] (c2) at ($(c1.south) + (0, -\YTD)$)
+{\figfont{任务并行编程中的任务协调机制}};
+
+\node [chapter] (c3) at ($(c2.south) + (0, -\YTD)$)
+{\figfont{任务并行中线程级锁的优化机制}};
+
+\node [ht] (end) at ($(c3.south) + (0, -\YTD)$)
+{\figfont{总结和展望}};
+
+\draw [->] (start.south) -- (c1.north);
+\draw [->] (c1.south) -- (c2.north);
+\draw [->] (c2.south) -- (c3.north);
+\draw [->] (c3.south) -- (end.north);
+
+\node[draw=none, fill=none] at($(c1.west) + (-\XMD, 0)$) {\figfont{第二章}};
+\node[draw=none, fill=none] at($(c2.west) + (-\XMD, 0) $) {\figfont{第三章}};
+\node[draw=none, fill=none] at($(c3.west) + (-\XMD, 0) $) {\figfont{第四章}};
+\end{tikzpicture}

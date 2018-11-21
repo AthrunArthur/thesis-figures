@@ -1,0 +1,22 @@
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[scale=\exfigscale, every node/.style={scale=\exfigscale}]
+    \node{
+      \begin{minipage}{.85\textwidth}
+\begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\kw{using namespace} tbb;
+\kw{class} M : \kw{public} task\{
+  task * execute() \{
+   set_ref_count(1);
+   //\ldots{}
+   \kw{return} NULL; \}
+\};
+M & a = *\kw{new}(task::allocate_root())M();
+task::spawn_root_and_wait(a);
+\end{Verbatim}
+\end{minipage}
+};
+\end{tikzpicture}
+\caption{一个使用错误值的函数调用的例子\cite{tbbwvalue}。 The assertion message complains that ``task still has children after it has been executed'', while the root cause is \cpp{set\_ref\_count} should take 0 as its input.}
+\label{fig:wvalue}
+\end{figure}

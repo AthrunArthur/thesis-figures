@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+\tikzset{
+  base/.style={draw, on grid, align=center, minimum height=4ex},
+  proc/.style={base, rectangle},
+  state/.style={on grid, align=center, minimum height=4ex},
+  coord/.style={coordinate, on grid, node distance=6mm and 25mm},
+}
+\node [state] (a) {empty};
+\node [state] (b) at($(a.east) + (1, 0)$) {init};
+\node [state] (c) at($(b.east) + (1.4, 0)$) {running};
+\node [state] (d) at($(c.east) + (1, 0)$) {over};
+
+\draw [->] (a) -- (b);
+\draw [->] (b) -- (c);
+\draw [->] (c) -- (d);
+
+\end{tikzpicture}

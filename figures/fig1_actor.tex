@@ -1,0 +1,63 @@
+\begin{tikzpicture}[mirror/.pic={
+  \tikzset{
+    qnode/.style={draw, rectangle, minimum width=0.1cm, minimum height=0.3cm}
+  }
+\node[
+      draw,
+      inner sep = 1pt,
+      rectangle,
+      matrix,
+      anchor=base,
+      ampersand replacement=\&,
+    ] (A) {%
+      \node[minimum width=0.1cm, minimum height=0.3cm] (a) {}; \&
+      \node (vline1) {}; \&
+      \node[minimum width=0.1cm, minimum height=0.3cm] (b){};\&
+      \node (vline2) {}; \&
+      \node[minimum width=0.1cm, minimum height=0.3cm] (c) {};\\
+    };
+    \draw (vline1 |- c.south) -- (vline1 |- c.north);
+    \draw (vline2 |- c.south) -- (vline2 |- c.north);
+  }]
+
+\tikzset{
+  pics/carc/.style args={#1:#2:#3}{
+    code={
+      \draw[pic actions, line width=1.2mm,draw=blue!20,
+preaction={-triangle 90,thin, draw=blue!20,shorten >=-0.8mm}
+      ] (#1:#3) arc(#1:#2:#3);
+    }
+  }
+}
+\path[draw=blue!20,solid,line width=2mm,fill=blue!20,
+preaction={-triangle 90,thin,fill=blue!20, draw=blue!20,shorten >=-1mm}
+] (0, 0) -- node[above, very near start]{主线程} ++(6, 0);
+\draw (1,2) pic {mirror};
+\draw (2.0,1.7) pic {carc=60:-240:0.6};
+\node at(2.0, 1.7) {\small{参与者}};
+
+
+\draw (4,2) pic {mirror};
+\draw (5.0,1.7) pic {carc=60:-240:0.6};
+\node at(5.0, 1.7) {\small{参与者}};
+
+
+\draw (1,-2) pic {mirror};
+\draw (2.0,-1.7) pic {carc=60:-240:0.6};
+\node at(2.0, -1.7) {\small{参与者}};
+
+
+\draw (4,-2) pic {mirror};
+\draw (5.0,-1.7) pic {carc=60:-240:0.6};
+\node at(5.0, -1.7) {\small{参与者}};
+
+
+\draw [->, densely dotted] (1.3, 0) to [in=180] (1-0.3, 2);
+\draw [->, densely dotted] (1.8, 0) to [out=-90, in=180] (1-0.3, -2);
+\draw [->, densely dotted] (4.3, 0) to [in=180] (4-0.3, 2);
+
+\draw [->, densely dotted] (2+0.424, 1.7-0.424) to [out=-45, in=180] (4-0.3, 2);
+\draw [->, densely dotted] (2+0.424, -1.7-0.424) to [out=-45, in=180] (4-0.3,
+-2);
+
+\end{tikzpicture}

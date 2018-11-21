@@ -1,0 +1,32 @@
+\begin{figure*}
+  \centering
+\begin{tikzpicture}[scale=\exfigscale, every node/.style={scale=\exfigscale}]
+  \node[codebox] (box){
+    \begin{minipage}{.85\textwidth}
+      \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+ff::para<> p1;
+ff::para<> p2;
+//...
+p1[p2].then([](){...});
+     \end{Verbatim}
+      \end{minipage}
+  };
+  \node[fancytitle, right=10pt] at (box.north west) {代码片段};
+
+  \node[errorbox,text width=.85\textwidth] (error) [below= 10pt of box] {
+    \begin{minipage}{.45\textwidth}
+      \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\fp{main.cpp}:30:27:   required from here
+\fp{\ldots{}/para/para_accepted_wait.h}:49:7: error: static assertion failed:
+ \msg{You can only call *then* right after calling operator(...), like this, }
+ \msg{ para<> a;}
+ \msg{ a[b]([](){...}).then(...);}
+     \end{Verbatim}
+      \end{minipage}
+    };
+
+    \node[fancytitle, right=10pt] at (error.north west) {编译错误信息};
+  \end{tikzpicture}
+  \caption{{\name}中的误用。Notice that the compiler error message points out the misusage, and also an example of how to correctly use it.}
+  \label{fig:ff-wait}
+\end{figure*}

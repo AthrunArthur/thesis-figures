@@ -1,0 +1,36 @@
+\begin{figure*}
+  \centering
+\begin{tikzpicture}[scale=\exfigscale, every node/.style={scale=\exfigscale}]
+  \node[codebox] (box){
+    \begin{minipage}{.85\textwidth}
+      \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\kw{using namespace} tbb;
+\kw{struct} SumFoo\{
+ \kw{void} runme(\kw{int} n)\{
+ parallel_reduce(blocked_range<\kw{int}>(0, n), \kw{this}, auto_partitioner());\}
+\};
+     \end{Verbatim}
+      \end{minipage}
+  };
+  \node[fancytitle, right=10pt] at (box.north west) {代码片段};
+
+  \node[errorbox,text width=.85\textwidth] (error) [below = 10pt of
+  box] {
+    \begin{minipage}{.45\textwidth}
+      \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\fp{main.cpp}:29:5: error: no matching function for call to `parallel_reduce'
+\fp{\ldots{}/tbb/parallel_reduce.h}:373:6: note: candidate function not viable:
+  no known conversion from `SumFoo *' to `SumFoo *&' for 2nd argument
+\fp{\ldots{}/tbb/parallel_reduce.h}:359:6: note: candidate function template
+  not viable: requires 2 arguments, but 3 were provided
+\fp{\ldots{}/tbb/parallel_reduce.h}:388:6: note: candidate function template
+  not viable: requires 4 arguments, but 3 were provided
+     \end{Verbatim}
+      \end{minipage}
+    };
+
+    \node[fancytitle, right=10pt] at (error.north west) {编译错误信息};
+  \end{tikzpicture}
+  \caption{一个类型不匹配的例子\cite{tbbtype}。修复该错误耗费约87分钟。The root cause is that \cpp{this} should be \cpp{*this}, while the message is about a viable converting from `\cpp{SumFoo *}' to `\cpp{SumFoo *\&}~\cite{cppstandard}.}
+  \label{fig:mismatch}
+\end{figure*}

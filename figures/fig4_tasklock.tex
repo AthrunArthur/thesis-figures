@@ -1,0 +1,10 @@
+\begin{figure}
+\centering
+\usebox{\tasklocklisting}
+\caption{{\bf Code snippet of \cpp{lock} in task-level mutex.} Note that 1)
+\cpp{ctx\_task} is a specific task which executes by restore context, 2)
+\cpp{enqueue} is to push task into current thread's task queue, and 3)
+\cpp{setcontext(thread\_entry\_point)} is to jump to current thread's entry
+point without return.}
+\label{fig:tasklock}
+\end{figure}

@@ -1,0 +1,42 @@
+
+%\tikzset{
+%block/.style={draw, fill=blue!20, minimum width=9pt, minimum
+%height=13pt, node distance=0pt}}
+\begin{tikzpicture}
+
+\node[block] (atail) at (0.4, 0) {};
+\node[block] (an1) at (0.8, 0) {};
+\node[block] (an2) at (1.2, 0) {};
+\node[block] (an3) at (1.6, 0) {};
+\node[block] (an4) at (2.0, 0) {};
+\node[block] (an5)  at (2.4, 0) {};
+\node[block] at (2.8, 0) {};
+\node[block] (ahead) at (3.2, 0) {};
+
+\node [below=1pt of ahead.south east, node distance=3pt] {\figfont{head}};
+\node [below=1pt of atail.south west] {\figfont{tail}};
+\node [above=5pt of an4.north] {\figfont{\bf 挂起任务队列}};
+\draw [-]  ($(atail.north west) + (-0.5, 0)$) -- (atail.north west);
+\draw [-]  ($(atail.south west) + (-0.5, 0)$) -- (atail.south west);
+
+\draw[->] ($(ahead.east) + (0, 1.5pt)$) -- ($(ahead.east) + (30pt, 1.5pt)$)
+{} node[very near end, sloped, above] {\figfont{窃取线程}};
+\draw[->] ($(ahead.east) + (0, -1.5pt)$) -- ($(ahead.east) + (30pt, -1.5pt)$) {}
+node[very near end, sloped, below] {\figfont{当前线程}};
+\draw[->, dashed] ($(atail.west) + (-1.75, 0)$) -- (atail.west) {}
+node [very near start, sloped, above] {\figfont{当前线程}};
+
+\coordinate  (A) at ($(atail.south west) + (0, -20pt)$);
+\coordinate
+[label=right:{{\figfont{将任务放入任务队列}}}] (B) at
+($(atail.south west) + (2.0, -20pt)$);
+\draw [->, dashed] ( A) --(B);
+
+\coordinate  (C) at ($(A.south west) + (0, -20pt)$);
+\coordinate
+[label=right:{{\figfont{从任务队列中取出任务}}}]
+(D) at ($(B.south west) + (0, -20pt)$){};
+\draw[->] (C) --(D);
+
+
+\end{tikzpicture}

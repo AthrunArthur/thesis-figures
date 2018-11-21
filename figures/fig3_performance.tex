@@ -1,0 +1,44 @@
+\begin{axis}[speedupbar]
+\addplot [ black, fill=lightgray, pattern=north east lines  ] plot coordinates {
+(1, 1.26395815651)
+(2, 2.68473331861)
+(3, 5.76448698986)
+(4, 6.91178562344)
+(5, 7.18889908139)
+(6, 7.61606506051)
+(7, 6.10969304371)
+(8, 7.23413953274)
+};\addplot [ black, fill=black  ] plot coordinates {
+(1, 1.27918425083)
+(2, 2.72717979234)
+(3, 5.28997635503)
+(4, 6.97908329554)
+(5, 6.94198084129)
+(6, 7.44812479957)
+(7, 7.1827481276)
+(8, 7.01301754861)
+};\draw(axis cs:0.82, 1.27918425083) -- node [above, yshift=-0.35mm]{\tiny{}1.2\%} ( axis cs:0.9, 1.27918425083);
+\draw(axis cs:0.82, 1.28395815651) -- ( axis cs:0.9, 1.28395815651);
+\draw(axis cs:1.82, 2.72717979234) -- node [above, yshift=-0.35mm]{\tiny{}1.6\%} ( axis cs:1.9, 2.72717979234);
+\draw(axis cs:1.82, 2.70473331861) -- ( axis cs:1.9, 2.70473331861);
+\draw(axis cs:3.1, 5.76448698986) -- node [above, yshift=-0.35mm]{\tiny{}-8.2\%} ( axis cs:3.18, 5.76448698986);
+\draw(axis cs:3.1, 5.30997635503) -- ( axis cs:3.18, 5.30997635503);
+\draw[<->] (axis cs:3.14,5.30997635503)-- (axis cs:3.14, 5.76448698986);
+\draw(axis cs:3.82, 6.97908329554) -- node [above, yshift=-0.35mm]{\tiny{}1.0\%} ( axis cs:3.9, 6.97908329554);
+\draw(axis cs:3.82, 6.93178562344) -- ( axis cs:3.9, 6.93178562344);
+\draw(axis cs:5.1, 7.18889908139) -- node [above, yshift=-0.35mm]{\tiny{}-3.4\%} ( axis cs:5.18, 7.18889908139);
+\draw(axis cs:5.1, 6.96198084129) -- ( axis cs:5.18, 6.96198084129);
+\draw[<->] (axis cs:5.14,6.96198084129)-- (axis cs:5.14, 7.18889908139);
+\draw(axis cs:6.1, 7.61606506051) -- node [above, yshift=-0.35mm]{\tiny{}-2.2\%} ( axis cs:6.18, 7.61606506051);
+\draw(axis cs:6.1, 7.46812479957) -- ( axis cs:6.18, 7.46812479957);
+\draw[<->] (axis cs:6.14,7.46812479957)-- (axis cs:6.14, 7.61606506051);
+\draw(axis cs:6.82, 7.1827481276) -- node [above, yshift=-0.35mm]{\tiny{}17.6\%} ( axis cs:6.9, 7.1827481276);
+\draw(axis cs:6.82, 6.12969304371) -- ( axis cs:6.9, 6.12969304371);
+\draw[<->] (axis cs:6.86,6.12969304371)-- (axis cs:6.86, 7.1827481276);
+\draw(axis cs:8.1, 7.23413953274) -- node [above, yshift=-0.35mm]{\tiny{}-3.1\%} ( axis cs:8.18, 7.23413953274);
+\draw(axis cs:8.1, 7.03301754861) -- ( axis cs:8.18, 7.03301754861);
+\draw[<->] (axis cs:8.14,7.03301754861)-- (axis cs:8.14, 7.23413953274);
+
+
+\legend{TBB,\name{}}
+\end{axis}

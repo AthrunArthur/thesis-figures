@@ -1,0 +1,10 @@
+  \begin{lstlisting}[mathescape]
+  void run_task(task_t * task){
+    task->state = running;
+    if(task->dexpr->check_if_over()){
+      task->run();
+    }else{
+      local_suspend_queue->push(task);
+    }
+  }
+  \end{lstlisting}

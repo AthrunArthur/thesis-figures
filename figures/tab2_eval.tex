@@ -1,0 +1,23 @@
+
+\normalsize
+  \centering
+  \setlength{\tabcolsep}{1pt}
+\begin{tabular}{|c|c|c|c|}
+\hline \hline
+类别&测试名称&可选的任务并行编程工具& 描述\\
+\hline
+\multirow{5}{6em}{编译错误} & \bh{TM} & {TBB}, {\tbbpatch}, {\name} &
+类型不匹配\\
+& \bh{CQ} & {TBB}, {\tbbpatch} & \cpp{const}限定符\\
+& \bh{CP} & {TBB}, {\tbbpatch} & 不可拷贝对象\\
+& \bh{ST} & {TBB}, {\tbbpatch} & 不支持类型\\
+& \bh{OM} & {TBB}, {\tbbpatch}, {\name} & 过时方法\\
+    \hline
+    \multirow{3}{6em}{运行时错误} & \bh{WT} & {TBB}, {\name} & 等待任务完成\\
+    & \bh{PP} & {TBB}, {\name} & 流水线并行\\
+    & \bh{DP} & {TBB}, {\name} & 任务依赖\\
+    \hline
+    \multirow{2}{6em}{并行编程} & \bh{MX} & {TBB}, {\name} & 矩阵乘法\\
+    & \bh{TR} & {TBB}, {\name} & 遍历树节点求和\\
+\hline
+\end{tabular}

@@ -1,0 +1,35 @@
+
+\begin{tikzpicture}
+\node[block] (tail) at (0.4, 0) {};
+\node[block] at (0.8, 0) {};
+\node[block] at (1.2, 0) {};
+\node[block] at (1.6, 0) {};
+\node[block] at (2.0, 0) {};
+\node[block] at (2.4, 0) {};
+\node[block] at (2.8, 0) {};
+\node[block] (head) at (3.2, 0) {};
+\node at(3.5, -0.6) {\figfont{head}};
+\node at(0.1, -0.6) {\figfont{tail}};
+\node at(2, 0.5) {\figfont{task queue}};
+\draw [-]  (-0.2, 0.25) -- (3.4, 0.25);
+\draw [-] (-0.2, -0.25) --(3.4, -0.25);
+
+\draw[->, dashed] (head.east) -- (5, 0) {} node[very near end, sloped,
+above] {\fcode{steal\_one\_task}};
+\draw[->] (-1.3, 0.1)  -> (0.2, 0.1) {} node [very near
+start, sloped, above] {\fcode{push\_back}};
+\draw[->] (0.2, -0.1) -> (-1.3, -0.1) {} node [very
+near end, sloped, below] {\fcode{dequeue}};
+
+\coordinate  (A) at (6.2, 0.15);
+\coordinate [label=right:{{\figfont{当前线程操作}}}] (B) at (6.7,
+0.15);
+\draw [->] ( A) --(B);
+
+\coordinate  (C) at (6.2, -0.15);
+\coordinate [label=right:{{\figfont{多线程操作}}}] (D) at (6.7,
+-0.15);
+\draw[->, dashed] (C) --(D);
+
+
+\end{tikzpicture}

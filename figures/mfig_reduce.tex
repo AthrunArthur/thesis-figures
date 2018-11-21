@@ -1,0 +1,61 @@
+\begin{figure*}
+  \centering
+  \begin{tikzpicture}[scale=\exfigscale, every node/.style={scale=\exfigscale}]
+    \node[codebox] (box){
+      \begin{minipage}{1.05\textwidth}
+        \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\kw{template}<\kw{typename} Range,\kw{typename} Body> \kw{void} parallel_reduce(\kw{const} Range& range,\kw{const} Body& body);
+        \end{Verbatim}
+      \end{minipage}
+    };
+    \node[fancytitle, right=10pt] at (box.north west) {声明};
+
+    \node [
+        codebox,
+        below=10pt of box.south west,
+        anchor=north west,
+    ] (def) {
+      \begin{minipage}{1.05\textwidth}
+        \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\kw{template}<\kw{typename} Range,\kw{typename} Body> \kw{auto} parallel_reduce(\kw{const} Range& range,\kw{const} Body& body)
+  -> \kw{typename} std::enable_if<is_func\_with\_arg\_type<Body, Range>::value, \kw{void} >::type \{\ldots \}
+        \end{Verbatim}
+      \end{minipage}
+    };
+    \node[fancytitle, right=10pt] at (def.north west) {定义};
+
+%    \node [
+%        rcbox,
+%        below=1pt of def.south west,
+%        anchor=north west,
+%    ] (ov1) {
+%      \begin{minipage}{0.85\textwidth}
+%        \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+%\kw{template}<\kw{typename} Range, \kw{typename} Body>
+%\kw{auto} parallel_reduce( \kw{const} Range& range, \kw{const} Body& body) ->
+%  \kw{typename} std::enable_if<!is_callable<Body>::value, \kw{void} > ::type\{
+%   static_assert(Check_Assert<Body>::value, ``The 2nd parameter should be functor'');\}
+%        \end{Verbatim}
+%      \end{minipage}
+%    };
+%    \node[fancytitle, left=-1pt] at (ov1.west) {Overload for non-functor};
+
+    \node [
+        codebox,
+        below=10pt of def.south west,
+        anchor=north west,
+    ] (ov2) {
+      \begin{minipage}{1.05\textwidth}
+        \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\kw{template}<\kw{typename} Range,\kw{typename} Body> \kw{auto} parallel_reduce(\kw{const} Range& range,\kw{const} Body* body)
+  -> \kw{typename} std::enable_if<!is_callable<Body>::value, \kw{void} > ::type\{
+   static_assert(Check_Assert<Body>::value,
+     ``the 2nd parameter of parallel_reduce should be reference instead of pointer'');\}
+        \end{Verbatim}
+      \end{minipage}
+    };
+    \node[fancytitle, right=10pt] at (ov2.north west) {对指针的重载};
+  \end{tikzpicture}
+  \caption{\cpp{paralllel\_reduce} in {\tbbpatch}. As an illustration, we do not list the checking for \cpp{Range} here.}
+  \label{fig:reduce}
+\end{figure*}

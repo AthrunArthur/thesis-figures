@@ -1,0 +1,187 @@
+
+\newsavebox{\thenlisting}
+\begin{lrbox}{\thenlisting}% Store first listing
+\begin{lstlisting}
+para<int> a;
+para<char> b;
+para<float> c;
+para<double> d;
+(a || (b && c) || d).then(func);
+\end{lstlisting}
+\end{lrbox}
+
+
+\newsavebox{\samplelisting}
+\begin{lrbox}{\samplelisting}
+\begin{lstlisting}
+ff::paracontainer pc;
+while(...){
+  int i = next();
+  ff::para<doble> a;
+  ff::para<void> b;
+  a([i](){return fa(i);});
+  b[a]([i](double d){fb(i, d);});
+  pc.add(b);
+}
+ff_wait(all(pc));
+\end{lstlisting}
+\end{lrbox}
+
+\newsavebox{\osamplelisting}
+\begin{lrbox}{\osamplelisting}
+\begin{lstlisting}
+ff::paracontainer pc;
+while(...){
+  int i = next();
+  (*{\color{red}{\tt optimized\_para\_a}}*)(pc, i);
+}
+(*{\color{red}{\tt clear\_para\_a}}*)(pc);
+ff_wait(all(pc));
+\end{lstlisting}
+\end{lrbox}
+
+\newsavebox{\optfunclisting}
+\begin{lrbox}{\optfunclisting}
+\begin{lstlisting}
+  void optimized_para_a(ff::paracontainer & pc, int & ii){
+    buf.push_back(ii); //global std::vector<int> buf;
+    if(buf.size() < thres_hold)
+      return ;
+    ff::para<std::vector<double> > a;
+    a([buf](){
+      std::vector<double> res;
+      for(auto i : buf){
+        double d = fa(i);
+        res.push_back(d);
+      }
+    });
+    ff::para<> b;
+    b[a]([buf](std::vector<double> ds){
+      for(size_t i = 0; i<buf.size(); ++i)
+        fb(ds[i], buf[i]);
+      });
+    pc.add(b);
+    buf.clear();
+  }
+\end{lstlisting}
+\end{lrbox}
+
+\newsavebox{\depexample}
+\begin{lrbox}{\depexample}
+\begin{lstlisting}[mathescape]
+while(...){
+  ff::para<void> a,b,c,d,e;
+  a(...); b(...);
+  c[a && b](...);
+  d[c](...); e[a](...);
+  ff_wait(a&&b&&c&&d&&e);
+}
+\end{lstlisting}
+\end{lrbox}
+
+\newsavebox{\waitandthen}
+\begin{lrbox}{\waitandthen}
+  \begin{lstlisting}[mathescape]
+template <class E1, class E2> class wait_and{
+ typedef typename E1:ret_type T1;
+ typedef typename E2:ret_type T2;
+ typedef std::tuple<T1, T2> ret_type;
+ E1 & m1;
+ E2 & m2;
+ ...
+
+ ret_type get(){return ret_type(m1.get(),m2.get());}
+
+ template<class F>
+ auto call_with_ret_vals(F && f) ->typename func_ret_type<f>::type{ return f(m1.get(), m2.get());}
+
+ template <class F>
+ auto then(F && f) ->typename
+  std::enable_if<is_callable_with_args<f, T1_t, T2_t>::value, func_ret_type<f>::type>::type {...}
+};
+  \end{lstlisting}
+\end{lrbox}
+
+
+% ======= STORE/BOX LISTINGS =======
+\newsavebox{\tasklisting}
+\begin{lrbox}{\tasklisting}% Store first listing
+\begin{lstlisting}
+ int g_counter = 0;
+ void task_fun(int i){
+    g_counter ++;
+    ms[g_counter%2].lock();
+    if( is_odd(i)){
+        ms1[i].lock();
+    }else{
+        ms2[i].lock();
+    }
+    ...
+ }
+\end{lstlisting}
+\end{lrbox}
+
+\newsavebox{\tasklocklisting}
+\begin{lrbox}{\tasklocklisting}
+\begin{lstlisting}
+  vido task_level_lock::lock(){
+    if(m_mutex.try_lock()) return ;
+    ucontext_t * ctx = ctx_pool.alloc();
+    getcontext(ctx);
+    if(m_mutex.try_lock()){ ctx_pool.free(ctx)}
+    else{
+      ctx_task t(ctx);
+      enqueue(t);
+      setcontext(thread_entry_point);
+    }
+  }
+\end{lstlisting}
+\end{lrbox}
+
+\newsavebox{\checkerlisting}
+\begin{lrbox}{\checkerlisting}% Store second listing
+\begin{lstlisting}
+ bool task_fun_checker(int i){
+    bool res = false;
+    if(is_odd(i)){
+        res = res || ms1[i].is_locked();
+    }else{
+        res = res || ms2[i].is_locked();
+    }
+    ....
+    return res;
+ }
+\end{lstlisting}
+\end{lrbox}
+
+\newsavebox{\pushfrontlisting}
+\begin{lrbox}{\pushfrontlisting}
+\begin{lstlisting}
+void push_front(task * t){
+  m_status.fetch_or(1<<16);
+  while(m_status.load() != 1<<16)
+    std::this_thread::yield();
+
+  //!push t here
+
+  m_status.store(0);
+}
+\end{lstlisting}
+\end{lrbox}
+
+\newsavebox{\steallisting}
+\begin{lrbox}{\steallisting}
+\begin{lstlisting}
+  task * steal(){
+  uint16_t expect = 0;
+  while(!m_status.compare_exchange_strong(
+   expect, expect + 1)){
+    if(expect & 1<<16) return NULL;
+      expect = expect & ((1<<16) - 1));
+    }//!original steal here
+  m_status.fetch_sub(1);
+  //!return here.
+}
+\end{lstlisting}
+\end{lrbox}
+

@@ -1,0 +1,30 @@
+\begin{figure*}
+\centering
+\begin{tabular}{ T{.24\textwidth} T{.01\textwidth}
+    T{.24\textwidth}T{0.01\textwidth}T{.24\textwidth}T{.01\textwidth}T{.24\textwidth}}
+  \subfigure[\footnotesize{FF w/ 4 threads}]{
+   \label{fig-micro-benchmark-res}
+   \scalebox{0.8}{
+    \begin{tikzpicture}%[trim axis left]
+      \input{../figures/cpuusage.tex}
+    \end{tikzpicture}}} & &
+  \subfigure[\footnotesize{FF w/ {\name}}]{
+          \label{fig-ff-micro-benchmark-res}
+          \scalebox{0.8}{
+          \begin{tikzpicture}%[trim axis left]
+            \input{../figures/ffcpuusage.tex}
+          \end{tikzpicture}}} & &
+\subfigure[\footnotesize{FF  w/ 8 threads}] {
+  \label{fig-threads-micro-benchmark-res}
+  \scalebox{0.8}{\begin{tikzpicture}
+    \input{../figures/8threadscpuusage.tex}
+  \end{tikzpicture}}} & &
+\subfigure[\footnotesize{FF w/ task-level lock}] {
+  \label{fig-tasklock-micro-benchmark-res}
+  \scalebox{0.8}{\begin{tikzpicture}
+      \input{../figures/4threadscpuusage.tex}
+    \end{tikzpicture}}} \\
+ \end{tabular}
+ \caption{{\bf CPU utilization of four cores.} Each line represents one core's utilization. The job contains $10^6$ tasks which acquire 4 different locks, and it takes 176 seconds for the sequential version.}
+ \label{fig:cpuusage}
+\end{figure*}

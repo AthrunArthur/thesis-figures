@@ -1,0 +1,57 @@
+\begin{tikzpicture}[scale=\exfigscale, every
+node/.style={scale=\exfigscale}]
+\node[codebox] (box) {
+\begin{minipage}{\textwidth}
+\begin{mcode}
+\kw{class} CompleteGraph\{
+\kw{public:}
+ \kw{typedef void} adjacency\_iterator;
+ \kw{typedef} vertex\_list\_graph\_tag traversal\_category;
+...
+\};
+...
+CompleteGraph cg = makeCompleteGraph(...);
+metric\_tsp\_approx\_tour\_from\_vertex(cg, ...);
+\end{mcode}
+\end{minipage}
+};
+\node[fancytitle, right=10pt] at (box.north west) {代码片段};
+
+\node[codebox] (fix) [right=6pt of box]{
+\begin{minipage}{0.95\textwidth}
+\begin{mcode}
+\kw{typedef typename} boost::adjacency\_iterator\_generator<
+  CompleteGraph<F>,
+  vertex\_descriptor,
+  out\_edge\_iterator
+ >::type adjacency\_iterator;
+\kw{struct} traversal\_category
+ : \kw{public virtual} boost::vertex\_list\_graph\_tag
+ , \kw{public virtual} boost::adjacency\_graph\_tag
+ , \kw{public virtual} boost::incidence\_graph\_tag\{\};
+\end{mcode}
+\end{minipage}
+};
+\node[fancytitle, right=10pt] at(fix.north west) {错误修复方法};
+
+\node[errorbox, text width=1.98*\textwidth, below=1pt of box.south west,
+anchor=north west] (error) {
+\begin{minipage}{\textwidth}
+\begin{mcode}
+\fp{.../dijkstra\_shortest\_paths.hpp}:373:60: error: no type named 'value\_type' in
+'struct boost::property\_traits<boost::bgl\_named\_params<boost::detail::\_project2nd<double, double>,
+  boost::distance\_combine\_t, boost::bgl\_named\_params<std::less<double>, boost::distance\_compare\_t,
+  boost::bgl\_named\_params< boost::iterator\_property\_map< \_\_gnu_cxx::\_\_normal\_iterator<
+     long unsigned int*, std::vector<long unsigned int> >,
+    boost::typed\_identity\_property\_map<long unsigned int>, long unsigned int, long unsigned int \&<,
+   boost::vertex\_predecessor\_t, boost::bgl\_named\_params< EdgeWeightMap<double>,
+    boost::edge\_weight\_t, boost::bgl\_named\_params< boost::typed\_identity\_property\_map<long unsigned int>,
+     boost::vertex\_index\_t, boost::bgl\_named\_params<long unsigned int, boost::root\_vertex\_t, boost::no_property> > > > > > >'
+
+typedef typename property\_traits<ColorMap>::value\_type ColorValue;
+\end{mcode}
+\end{minipage}
+};
+\node [fancytitle, right=10pt] at (error.south west) {编译错误信息片段};
+\end{tikzpicture}
+

@@ -1,0 +1,19 @@
+
+\normalsize
+\begin{tabular}{|c|ccc|ccc|}
+  \hline
+  \hline
+  \multirow{2}{*}{基准程序} & \multicolumn{3}{|c|}{带SSLink的FF} &
+  \multicolumn{3}{|c|}{原始的FF} \\
+  \cline{2-7}
+  & 缓存丢失数 & 访存数 & \cellcolor{lightgray} 缓存丢失率& 缓存丢失数 & 访存数
+  & \cellcolor{lightgray} 缓存丢失率 \\
+  \hline
+\bench{VA} & 52121147 & 165280398 & \cellcolor{lightgray}31.5\% & 54172667 & 170596724 & \cellcolor{lightgray}31.8\%\\
+\bench{QS} & 2724120 & 18721418 & \cellcolor{lightgray}14.1\% & 2599431 & 18749935 & \cellcolor{lightgray}13.8\%\\
+\bench{CA} & 3774 & 21309 & \cellcolor{lightgray}17.7\% & 3820 & 20525 & \cellcolor{lightgray}18.6\%\\
+\bench{SSCA} & 33307869 & 120588323 & \cellcolor{lightgray}27.6\% & 32483095 & 122035751 & \cellcolor{lightgray}26.6\%\\
+\bench{BQ} & 1681589 & 26934977 & \cellcolor{lightgray}6.2\% & 1926954 & 36257448 & \cellcolor{lightgray}5.3\%\\
+\bench{SC} & 2526893 & 10840787 & \cellcolor{lightgray}23.3\% & 2529202 & 10770568 & \cellcolor{lightgray}23.5\%\\
+  \hline
+  \end{tabular}

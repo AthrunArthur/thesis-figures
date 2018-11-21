@@ -1,0 +1,107 @@
+\usetikzlibrary{positioning}
+\usetikzlibrary{fit}
+\begin{tikzpicture}
+
+\pgfmathsetmacro{\XTD}{1.8}
+\pgfmathsetmacro{\XMD}{1.2}
+\pgfmathsetmacro{\YTD}{2.8}
+\tikzset{
+  inst/.style={draw, circle, on grid, align=center, minimum height=3ex},
+  thread/.style={draw, rectangle, on grid, align=center,color=gray!30,
+  fill=gray!30,
+  rounded corners,
+  minimum height=3ex,fit=#1},
+}
+
+\node[inst] (v1) at (0, 0) {\code{$v_1$}};
+\node[inst] (v2) at (\XTD, 0) {\code{$v_2$}};
+\node[inst] (v3) at (-\XTD, -2) {\code{$v_3$}};
+\node[inst] (v4) at (-\XTD, -4) {\code{$v_4$}};
+\node[inst] (v5) at (-\XTD + \XMD, -4) {\code{$v_5$}};
+\node[inst] (v6) at (-\XTD + \XMD, -2) {\code{$v_6$}};
+\node[inst] (v7) at (-\XTD + 2.5*\XMD, -4) {\code{$v_7$}};
+\node[inst] (v8) at ($(v7) + (\XMD, 0)$) {\code{$v_8$}};
+\node[inst] (v9) at ($(v6) + (\XMD, 0)$) {\code{$v_9$}};
+\node[inst] (v10) at ($(v8) + (1.5*\XMD,
+0)$){\code{$v_{10}$}};
+\node[inst] (v11) at  ($(v10) + (\XMD, 0)$){\code{$v_{11}$}};
+\node[inst] (v12) at  ($(v11) + (\XMD, 0)$){\code{$v_{12}$}};
+\node[inst] (v13) at  ($(v9) + (\XMD, 0)$){\code{$v_{13}$}};
+\node[inst] (v14) at  ($(v13) + (\XMD, 0)$){\code{$v_{14}$}};
+\node[inst] (v15) at  ($(v14) + (\XMD, 0)$){\code{$v_{15}$}};
+\node[inst] (v16) at  ($(v2) + (\XTD, 0)$){\code{$v_{16}$}};
+\node[inst] (v17) at  ($(v16) + (\XTD, 0)$){\code{$v_{17}$}};
+\node[inst] (v18) at  ($(v15) + (2*\XMD, 0)$){\code{$v_{18}$}};
+\node[inst] (v19) at  ($(v18) + (\XMD, 0)$){\code{$v_{19}$}};
+\node[inst] (v20) at  ($(v19) + (\XMD, 0)$){\code{$v_{20}$}};
+\node[inst] (v21) at  ($(v17) + (\XTD, 0)$){\code{$v_{21}$}};
+\node[inst] (v22) at  ($(v21) + (\XTD, 0)$){\code{$v_{22}$}};
+\node[inst] (v23) at  ($(v22) + (\XTD, 0)$){\code{$v_{23}$}};
+
+\draw[->,>=stealth'] (v1) to (v2);
+\draw[->,>=stealth'] (v2) to (v16);
+\draw[->,>=stealth'] (v16) to (v17);
+\draw[->,>=stealth'] (v17) to (v21);
+\draw[->,>=stealth'] (v21) to (v22);
+\draw[->,>=stealth'] (v22) to (v23);
+\draw[->,>=stealth'] (v3) to (v6);
+\draw[->,>=stealth'] (v6) to (v9);
+\draw[->,>=stealth'] (v9) to (v13);
+\draw[->,>=stealth'] (v13) to (v14);
+\draw[->,>=stealth'] (v14) to (v15);
+\draw[->,>=stealth'] (v18) to (v19);
+\draw[->,>=stealth'] (v19) to (v20);
+\draw[->,>=stealth'] (v4) to (v5);
+\draw[->,>=stealth'] (v7) to (v8);
+\draw[->,>=stealth'] (v10) to (v11);
+\draw[->,>=stealth'] (v11) to (v12);
+
+\draw[-,line width=5pt, color=gray!30] (v2) to (v3);
+\draw[-,line width=5pt, color=gray!30] (v3) to (v4);
+\draw[-,line width=5pt, color=gray!30] (v6) to (v7);
+\draw[-,line width=5pt, color=gray!30] (v9) to (v10);
+\draw[-,line width=5pt, color=gray!30] (v17) to (v18);
+\draw[->,>=stealth'] (v2) to (v3);
+\draw[->,>=stealth'] (v3) to (v4);
+\draw[->,>=stealth'] (v6) to (v7);
+\draw[->,>=stealth'] (v9) to (v10);
+\draw[->,>=stealth'] (v17) to (v18);
+\draw[->,>=stealth'] (v13) to [out=40, in=210] (v22);
+\draw[->,>=stealth'] (v15) to [out=30, in=210](v23);
+\draw[->,>=stealth'] (v20) to [out=30, in=240](v23);
+\draw[->,>=stealth'] (v5) to [out=60, in=230](v14);
+\draw[->,>=stealth'] (v8) to [out=40, in=270](v14);
+\draw[->,>=stealth'] (v12) to [out=100, in=270](v15);
+\begin{pgfonlayer}{background}
+\coordinate (A) at ($(v1)+(-0.4,-0.4)$);
+\coordinate (B) at ($(v23)+(0.4,0.4)$);
+\node[thread={(A) (B)}]{};
+
+\coordinate (C) at ($(v3)+(-0.4,-0.4)$);
+\coordinate (D) at ($(v15)+(0.4,0.4)$);
+\node[thread={(C) (D)}]{};
+
+\coordinate (E) at ($(v18)+(-0.4,-0.4)$);
+\coordinate (F) at ($(v20)+(0.4,0.4)$);
+\node[thread={(E) (F)}]{};
+
+\coordinate (A1) at ($(v4)+(-0.4,-0.4)$);
+\coordinate (B1) at ($(v5)+(0.4,0.4)$);
+\node[thread={(A1) (B1)}]{};
+
+\coordinate (A2) at ($(v7)+(-0.4,-0.4)$);
+\coordinate (B2) at ($(v8)+(0.4,0.4)$);
+\node[thread={(A2) (B2)}]{};
+
+\coordinate (A3) at ($(v10)+(-0.4,-0.4)$);
+\coordinate (B3) at ($(v12)+(0.4,0.4)$);
+\node at ($(v1.west) + (-0.8, 0)$){线程1};
+\node at ($(v3.west) + (-0.8, 0)$){线程2};
+\node at ($(v4.south) + (-0, -0.4)$){线程3};
+\node at ($(v7.south) + (-0, -0.4)$){线程4};
+\node at ($(v10.south) + (0, -0.4)$){线程5};
+\node at ($(v20.east) + (0.8, 0)$){线程6};
+\node[thread={(A3) (B3)}]{};
+
+\end{pgfonlayer}
+\end{tikzpicture}

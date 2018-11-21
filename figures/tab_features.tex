@@ -1,0 +1,28 @@
+\setlength{\tabcolsep}{1pt}
+\normalsize
+\begin{tabularx}{1.25\textwidth}{|c|C|C|C|C|C|C|C|C|}
+\hline \hline
+\multirow{2}{*}{任务协调模式}& \multicolumn{4}{|c|}{
+  并行编程库} & \multicolumn{4}{|c|}{并行编程语言} \\
+\cline{2-9}
+& TBB& TPL & PPL & pFunc &
+Cilk & OpenMP & X10 & Chapel \\
+\hline
+等待子任务& \cmark   & \cmark    & \cmark &  \cmark & \cmark  & \cmark &
+\cmark & \cmark \\
+等待所有任务 & \xmark   &  \cmark  &   \cmark &  \cmark    & \cmark   & \xmark &
+\xmark &\xmark \\
+等待任一任务 & \xmark   &  \cmark   &  \cmark  &  \cmark    & \xmark   & \xmark
+&\xmark &  \xmark \\
+组合等待& \tmark & \xmark   & \xmark & \xmark     &  \xmark  & \xmark &\xmark
+&\xmark \\
+\hline
+\multicolumn{9}{l}{%
+  \begin{minipage}{0.95\textwidth}
+  \footnotesize {\cmark}: 支持指定的协调模式; \qquad
+  \footnotesize {\xmark}: 不支持\\
+  \footnotesize {\tmark}:
+  TBB使用额外的组件进行支持，包括\code{tbb::pipeline}及\code{tbb::flowgraph};
+  \end{minipage}
+}
+\end{tabularx}

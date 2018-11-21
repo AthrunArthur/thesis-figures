@@ -1,0 +1,17 @@
+\begin{figure}
+  \centering
+\begin{lstlisting}[mathescape]
+int fib(int n){
+  if(n < MIN_PARA_N)  return serial_fib(n);
+  ff::para<int> a, b;
+  a([n](){return fib(n-1);});
+  b([n](){return fib(n-2);});
+  return (a&&b).then([](int m,int n){return m+n;});
+}
+\end{lstlisting}
+\caption{A {\fname} program which recursively computes the \(n\)th Fibonacci
+    number. Notice that this program is only used to show {\it how} to
+    program with {\name}. And this is not a practical way to
+    calculate Fibonacci numbers.}
+\label{fig:overview}
+\end{figure}

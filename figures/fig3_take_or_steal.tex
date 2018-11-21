@@ -1,0 +1,27 @@
+\begin{lstlisting}[mathescape]
+task_t * take_or_steal_task(){
+  auto task = local_work_stealing_queue->pop();
+  if(is_valid(task)){
+    return task;
+  }
+  thread_local static int counter = 0;
+
+  counter ++;
+  if(counter & 0x3 == 0){
+    task = steal_task();
+    if(is_valid(task)){
+      return task;
+    }else{
+      return local_suspend_queue->pop();
+    }
+  }
+  else{
+    task = local_suspend_queue->pop();
+    if(is_valid(task)){
+      return task;
+    }else{
+      return steal_task();
+    }
+  }
+}
+\end{lstlisting}

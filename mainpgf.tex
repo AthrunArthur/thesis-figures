@@ -1,0 +1,750 @@
+
+\pgfplotsset{
+      % #1: index in the group(0,1,2,\ldots)
+      % #2: number of plots of that group
+  bar group size/.style 2 args={
+    /pgf/bar shift={%
+                                  % total width = n*w + (n-1)*skip
+                                  % -> subtract half for centering
+      -0.5*(#2*\pgfplotbarwidth + (#2-1)*\pgfkeysvalueof{/pgfplots/bar group skip})  +
+                                                  % the '0.5*w' is for centering
+      (.5+#1)*\pgfplotbarwidth + #1*\pgfkeysvalueof{/pgfplots/bar group skip}},%
+    },
+    bar group skip/.initial=2pt,
+    tbb/.style={black, fill=black!30, pattern=crosshatch},%
+    tbbpatch/.style={black, fill=yellow!30, pattern=north east lines},%
+    ff/.style={black, fill=black},%
+    %tbbpatch/.style={red,fill=red!30!white,mark=none},%
+    %ff/.style={brown!60!black,fill=brown!30!white,mark=none},%
+  }
+
+
+
+\pgfplotsset{qatime/.style={%
+  ytick={0, 20, 40, 60, 80, 100},
+  tick label style={font=\normalsize},
+  label style={font=\normalsize},
+  ylabel= {累积分布函数(\%)},
+  xlabel = {时间(小时)},
+  ymin=0,
+  ymax=165,
+  %ymax=110,
+%  xmax = 12,
+  scale only axis,
+  width=0.9\textwidth,
+  height=0.6\textwidth,
+  legend style={legend pos=north west, font=\normalsize},
+  xmin=0.01,
+  every axis/.append style={font=\normalsize}
+}
+}
+\pgfplotsset{recdf/.style={%
+  tick label style={font=\normalsize},
+  label style={font=\normalsize},
+  ylabel= {累积分布函数(\%)},
+  %ylabel= {Ratio(\%)},
+  xlabel = {时间(小时)},
+  ymin=0,
+  ytick={0, 20, 40, 60, 80, 100},
+  ymax=180,
+  scale only axis,
+  width=0.9\textwidth,
+  height=0.6\textwidth,
+  legend style={legend pos=north west, font=\normalsize},
+  xmin=0,
+  every axis/.append style={font=\normalsize}
+}
+}
+
+  \pgfplotsset{avgtime/.style={%
+    legend style={
+      at={(0.5,0.98)},
+      legend columns=3,
+      font=\normalsize,
+    anchor=north},
+    ybar,
+    xtick pos = left,
+    bar width=9pt,
+    ymin=0,
+    ymax=110,
+    xmin=0.3,
+    scale only axis,
+    ytick={0, 20, 40, 60, 80, 100},
+    xticklabels={\normalsize {\bh{.}}, \bh{.}, \footnotesize{\bh{TM}}, \footnotesize{\bh{CQ}}, \footnotesize{\bh{CP}}, \footnotesize{\bh{ST}}, \footnotesize{\bh{OM}}, \footnotesize{\bh{WT}}, \footnotesize{\bh{PP}}, \footnotesize{\bh{DP}}, \footnotesize{\bh{MX}},\footnotesize{\bh{TR}}},
+    ylabel style={align=center},
+    ylabel={{时间(分钟)}},
+    xlabel=\empty,
+    width=1.3\textwidth,
+    height=0.4\textwidth,
+    every axis/.append style={font=\normalsize},
+    after end axis/.code={
+    \draw [decorate,decoration={brace,mirror,raise=15}] (axis cs:0.5,0) --
+    (axis cs:5.4,0) node [midway,below=15] {\normalsize 解决编译错误};
+    \draw [decorate,decoration={brace,mirror,raise=15}] (axis cs:5.6,0) --
+    (axis cs:8.4,0) node [midway,below=15] {\normalsize 解决运行时错误};
+    \draw [decorate,decoration={brace,mirror,raise=15}] (axis cs:8.6,0) --
+    (axis cs:10.5,0) node [midway,below=15] {\normalsize 并行编程};
+                          }
+  }}
+\pgfplotsset{speedupbar/.style={%
+  legend style = {
+    cells={anchor=east},
+    legend pos=north west,
+    font=\normalsize,
+    legend columns=2,
+  },
+  xticklabels={\normalsize {\bench{KM}}, \normalsize {\bench{CA}},
+    \normalsize{\bench{LU}},
+    \normalsize{\bench{QD}},
+    \normalsize{\bench{FB}},
+    \normalsize{\bench{QS}}, \normalsize{\bench{TS}},
+    \normalsize{\bench{NQ}}},
+  scale only axis,
+  xtick=data,
+  ybar,
+  ytick = {0, 1, 2, 3, 4, 5, 6, 7, 8},
+  ylabel={加速比},
+  ymin=0,
+  ymax=8.7,
+  width = .75\textwidth,
+  height= .45\textwidth,
+  bar width = 10pt,
+  xtick pos = left,
+  every axis/.append style={font=\normalsize},
+}}
+
+\pgfplotsset{scalline/.style={%
+  legend style = {
+    cells={anchor=east},
+    legend pos=north west,
+    font=\normalsize,
+    legend columns=2,
+  },
+  scale only axis,
+  xtick=data,
+  ytick = {0, 1, 2, 3, 4, 5, 6, 7, 8},
+  ymin = 0,
+  ymax = 8,
+  xmax = 8,
+  xtick pos = left,
+  xlabel = {处理器个数},
+  ylabel = {加速度比},
+  width = .75\textwidth,
+  height= .45\textwidth,
+  grid,
+  every axis/.append style={font=\normalsize},
+}}
+
+\pgfplotsset{microvarbar/.style={%
+  yticklabel={\pgfmathprintnumber{\tick}},
+       legend style={
+          at={(0.5,0.98)},
+          legend columns=1,
+          font=\footnotesize,
+          anchor=north},
+        ybar,
+        bar width=9pt,
+        ymin=0,
+        xmax=4.4,
+        xmin=0.5,
+        scale only axis,
+        ylabel={\footnotesize{Variance ($\log_{10}$)}},
+        xlabel={\footnotesize{\# of lock}},
+        xtick=data,
+        %xtick={3e12, e13, 3e13},
+        every axis y label/.append style={
+          yshift=-8pt,
+        },
+        width=0.75\textwidth,
+        height=0.6\textwidth,
+        every axis/.append style={font=\footnotesize}
+}}
+
+\pgfplotsset{mhtime/.style={%
+        tick label style={font=\footnotesize},
+        label style={font=\footnotesize},
+        xlabel= {\footnotesize{Ratio of locks' duration.}},
+        ylabel= {\footnotesize{Speedup}},
+        ymin=1,
+        ymax=4,
+        width=\textwidth,
+        height=0.86\textwidth,
+        xmin=0,
+        xmax=100,
+        every axis y label/.append style={
+          yshift=-12pt,
+        },
+        every axis/.append style={font=\footnotesize}}
+}
+
+\pgfplotsset{allbench/.style={%
+       legend style={
+          at={(0.5,0.98)},
+          legend columns=3,
+          font=\footnotesize,
+          anchor=north},
+        ybar,
+        bar width=6pt,
+        ymin=0.7,
+        ymax=1.3,
+        xmin=0.5,
+        xmax=6.8,
+        scale only axis,
+        xticklabels={\bench{BQ}, \bench{VN}, \bench{SSCA}, \bench{CA},
+          \bench{SC}, \bench{QS}},
+        ylabel style={text width = .16\textwidth, align=center},
+        ylabel={Runtime (normalized)},
+        xlabel=\empty,
+        xtick=data,
+        every axis y label/.append style={
+          yshift=-1pt,
+        },
+        x tick label style={rotate=45,anchor=east},
+        ytick = {0.6, 0.7, 0.8, 0.9, 1.0, 1.1},
+        width=0.95\textwidth,
+        height=0.24\textwidth,
+        every axis/.append style={font=\footnotesize}
+}}
+
+
+
+\pgfplotsset{tcdf2/.style={%
+  tick label style={font=\normal},
+  label style={font=\normal},
+  ylabel= {累积分布函数(\%)},
+  %    ylabel= {Ratio(\%)},
+  xlabel = {时间(分钟)},
+  ymin=0,
+  ytick={0, 20, 40, 60, 80, 100},
+  ymax=105,
+  scale only axis,
+  width=0.25\textwidth,
+  height=0.3\textwidth,
+  legend style={legend pos=south east, font=\normal},
+  xmin=0,
+  every axis/.append style={font=\normal}
+}
+  }
+  \pgfplotsset{tcdf3/.style={%
+    tick label style={font=\normal},
+    label style={font=\normal},
+    ylabel= {累积分布函数(\%)},
+    %ylabel= {Ratio(\%)},
+    xlabel = {时间(分钟)},
+    ymin=0,
+    ytick={0, 20, 40, 60, 80, 100},
+    ymax=130,
+    scale only axis,
+    width=0.25\textwidth,
+    height=0.3\textwidth,
+    legend style={legend pos=north east, font=\normal},
+    xmin=0,
+    every axis/.append style={font=\normal}
+  }
+}
+
+
+\pgfplotsset{bqvarbar/.style={%
+        %y tick label style={/pgf/number format/.cd,sci precision=5},
+  yticklabel={\pgfmathprintnumber{\tick}},
+       legend style={
+         legend pos = north west,
+          legend columns=1,
+          font=\footnotesize,
+          },
+        ybar,
+        bar width=9pt,
+        ymin=0,
+        ymax = 200000,
+        xmin=0.7,
+        xmax = 2.3,
+        scale only axis,
+        ylabel={\footnotesize{方差($\log_{10}$)}},
+        xlabel={\footnotesize{锁的个数}},
+        xtick=data,
+        every axis y label/.append style={
+          yshift=-16pt,
+        },
+        width = 0.4\textwidth,
+        height=0.15\textwidth,
+        every axis/.append style={font=\footnotesize}
+}}
+
+\pgfplotsset{vnvarbar/.style={%
+  yticklabel={\pgfmathprintnumber{\tick}},
+       legend style={
+         legend pos = north west,
+          legend columns=1,
+          font=\footnotesize,
+          },
+        ybar,
+        bar width=9pt,
+        ymin=0,
+        ymax=1e12,
+        xmin=0.5,
+        xmax = 4.5,
+        scale only axis,
+        ylabel={\footnotesize{Variance ($\log_{10}$)}},
+        xlabel={\footnotesize{\# of lock}},
+        xtick=data,
+        every axis y label/.append style={
+          yshift=-16pt,
+        },
+        width = 0.4\textwidth,
+        height=0.15\textwidth,
+        every axis/.append style={font=\footnotesize}
+}}
+
+\pgfplotsset{alllb/.style={%
+       legend style={
+          legend columns=1,
+          font=\footnotesize,
+          legend pos=north west},
+        ybar,
+        bar width=7pt,
+        ymin=60,
+        ymax=100,
+        xmin=0.5,
+        xmax=6.8,
+        scale only axis,
+        xticklabels={\bench{BQ}, \bench{VN}, \bench{SSCA}, \bench{CA}, \bench{SC}, \bench{QS}},
+    ylabel={\footnotesize{负载均衡(\%)}},
+        xlabel=\empty,
+        xtick=data,
+        x tick label style={rotate=45,anchor=east},
+        width=0.75\textwidth,
+        height=0.36\textwidth,
+        every axis/.append style={font=\footnotesize}
+}}
+
+
+\pgfplotsset{bposs1/.style={%
+    xlabel={锁的个数 ($L$)},
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    ylabel={\footnotesize{时间}},
+    scale only axis,
+    width=0.36\textwidth,
+    height=0.36\textwidth,
+    grid=major,
+    ymin=0,
+    xmin=0,
+    every axis y label/.append style={
+      yshift=-20pt,
+    },
+    every axis/.append style={font=\footnotesize}}}
+
+\pgfplotsset{bposs2/.style={%
+    xlabel={锁的个数 ($L$)},
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    ylabel={\footnotesize{时间}},
+    %ylabel=\empty,
+    scale only axis,
+    width=0.36\textwidth,
+    height=0.36\textwidth,
+    grid=major,
+    ymin=0,
+    xmin=0,
+    every axis y label/.append style={
+      yshift=-15pt,
+    },
+    every axis/.append style={font=\footnotesize}
+  }}
+
+\pgfplotsset{bposs3/.style={%
+    xlabel={锁的个数 ($L$)},
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    ylabel={\footnotesize{时间}},
+    %ylabel=\empty,
+    scale only axis,
+    width=0.36\textwidth,
+    height=0.36\textwidth,
+    grid=major,
+    ymin=0,
+    xmin=0,
+    every axis y label/.append style={
+      yshift=-5pt,
+    },
+    every axis/.append style={font=\footnotesize}
+  }}
+\pgfplotsset{singlelb/.style={%
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    ylabel= {\footnotesize{Load balancing(\%)}},
+    grid=major,
+    ymin=40,
+    ymax=100,
+    scale only axis,
+    width=0.3\textwidth,
+    height=0.33\textwidth,
+    xmin=0,
+    every axis y label/.append style={
+      yshift=-12pt,
+    },
+    every axis/.append style={font=\footnotesize}}}
+
+\pgfplotsset{cpuusage1/.style={%
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    ylabel= {\footnotesize{Utilization(\%)}},
+    grid=major,
+    ymin=40,
+    ymax=105,
+    scale only axis,
+    width=0.15\textwidth,
+    height=0.15\textwidth,
+    xmin=0,
+    every axis y label/.append style={
+      yshift=-12pt,
+    },
+    ytick={40, 60, ..., 120},
+    every axis/.append style={font=\footnotesize}}}
+
+\pgfplotsset{cpuusage2/.style={%
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    ylabel={\footnotesize{CPU利用率(\%)}},
+    grid=major,
+    ymin=40,
+    ymax=105,
+    scale only axis,
+    width=0.35\textwidth,
+    height=0.35\textwidth,
+    xmin=0,
+    every axis y label/.append style={
+      yshift=-12pt,
+    },
+    ytick={40, 60, ..., 120},
+    every axis/.append style={font=\footnotesize}
+  }}
+
+
+
+\pgfplotsset{lockusage/.style={%
+    legend style={
+      at={(0.5,0.98)},
+      legend columns=2,
+      font=\footnotesize,
+      anchor=north},
+    ybar stacked,
+    scale only axis,
+    ylabel={\footnotesize{\# of acquired locks (million)}},
+    xlabel={\footnotesize{\# thread}},
+    symbolic x coords={{0},{1}, {2}, {3}},
+    ymin=0,
+    ymax= 15,
+    xtick=data,
+    every axis y label/.append style={
+      yshift=-15pt,
+    },
+    y tick label/.append style={/pgf/number format/.cd,%
+      scaled y ticks = false,
+      set thousands separator={$*$},
+      fixed,
+    },
+    width=0.15\textwidth,
+    height=0.25\textwidth,
+    every axis/.append style={font=\footnotesize}
+  }}
+
+\pgfplotsset{benchlockusage/.style={%
+    legend style={
+      at={(0.5,0.98)},
+      legend columns=2,
+      font=\footnotesize,
+      anchor=north},
+    ybar stacked,
+    scale only axis,
+    ylabel={\footnotesize{\# of acquired locks (million)}},
+    xlabel={\footnotesize{\# thread}},
+    %symbolic x coords={{0},{1}, {2}, {3}, {4}, {5}, {6}, {7}},
+    ymin=0,
+    %ymax= 15,
+    xtick=data,
+    every axis y label/.append style={
+      yshift=-15pt,
+    },
+    y tick label/.append style={/pgf/number format/.cd,%
+      scaled y ticks = false,
+      set thousands separator={$*$},
+      fixed,
+    },
+    %width=0.15\textwidth,
+    %height=0.25\textwidth,
+    every axis/.append style={font=\footnotesize}
+  }}
+\pgfplotsset{mainbench/.style={%
+    ybar,
+    bar width=5pt,
+    ymin=0,
+    xmin=0,
+    scale only axis,
+    legend style={legend pos=outer north east,font=\footnotesize},
+    ylabel={\footnotesize{Runtime (s)}},
+    xlabel={\footnotesize{\# of threads}},
+    xtick=data,
+    width=0.85\textwidth,
+    height=0.75\textwidth,
+    every axis/.append style={font=\footnotesize}
+  }}
+
+\pgfplotsset{alllb/.style={%
+    legend style={
+      legend columns=1,
+      font=\footnotesize,
+      legend pos=north west},
+    ybar,
+    bar width=7pt,
+    ymin=60,
+    ymax=100,
+    xmin=0.5,
+    xmax=6.8,
+    scale only axis,
+    xticklabels={\bench{BQ}, \bench{VN}, \bench{SSCA}, \bench{CA}, \bench{SC}, \bench{QS}},
+    ylabel={\footnotesize{负载均衡(\%)}},
+    xlabel=\empty,
+    xtick=data,
+    x tick label style={rotate=45,anchor=east},
+    width=0.75\textwidth,
+    height=0.36\textwidth,
+    every axis/.append style={font=\footnotesize}
+  }}
+
+\pgfplotsset{cachemiss/.style={%
+    legend style={
+      legend columns=1,
+      font=\footnotesize,
+      anchor=north east},
+    ybar,
+    bar width=7pt,
+    ymin=0,
+    ymax=45,
+    xmin=0.5,
+    xmax=6.8,
+    ytick={0, 10, 20, 30, 40},
+    scale only axis,
+    xticklabels={\bench{BQ}, \bench{VN}, \bench{SSCA}, \bench{CA}, \bench{SC}, \bench{QS}},
+    ylabel={\footnotesize{缓存缺失率(\%)}},
+    xlabel=\empty,
+    xtick=data,
+    every axis y label/.append style={
+      yshift=-16pt,
+    },
+    x tick label style={rotate=45,anchor=east},
+    width=0.95\textwidth,
+    height=0.6\textwidth,
+    every axis/.append style={font=\footnotesize}
+  }}
+
+\pgfplotsset{allbench/.style={%
+    legend style={
+      at={(0.5,0.98)},
+      legend columns=3,
+      font=\footnotesize,
+      anchor=north},
+    ybar,
+    bar width=6pt,
+    ymin=0.7,
+    ymax=1.3,
+    xmin=0.5,
+    xmax=6.8,
+    scale only axis,
+    xticklabels={\bench{BQ}, \bench{VN}, \bench{SSCA}, \bench{CA},
+      \bench{SC}, \bench{QS}},
+    ylabel style={text width = .16\textwidth, align=center},
+    ylabel={运行时间(标准化后)},
+    xlabel=\empty,
+    xtick=data,
+    every axis y label/.append style={
+      yshift=-1pt,
+    },
+    x tick label style={rotate=45,anchor=east},
+    ytick = {0.6, 0.7, 0.8, 0.9, 1.0, 1.1},
+    width=0.95\textwidth,
+    height=0.36\textwidth,
+    every axis/.append style={font=\footnotesize}
+  }}
+
+\pgfplotsset{microvarbar/.style={%
+    yticklabel={\pgfmathprintnumber{\tick}},
+    legend style={
+      at={(0.5,0.98)},
+      legend columns=1,
+      font=\footnotesize,
+      anchor=north},
+    ybar,
+    bar width=9pt,
+    ymin=0,
+    xmax=4.4,
+    xmin=0.5,
+    scale only axis,
+    ylabel={\footnotesize{方差($\log_{10}$)}},
+    xlabel={\footnotesize{ 锁的个数 }},
+    xtick=data,
+    %xtick={3e12, e13, 3e13},
+    every axis y label/.append style={
+      yshift=-8pt,
+    },
+    width=0.75\textwidth,
+    height=0.6\textwidth,
+    every axis/.append style={font=\footnotesize}
+  }}
+\pgfplotsset{mhtime/.style={%
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    xlabel= {\footnotesize{锁时间在任务中的比例}},
+    ylabel= {\footnotesize{加速比}},
+    ymin=1,
+    ymax=4,
+    width=\textwidth,
+    height=0.36\textwidth,
+    xmin=0,
+    xmax=100,
+    every axis y label/.append style={
+      yshift=-12pt,
+    },
+    every axis/.append style={font=\footnotesize}}}
+
+\pgfplotsset{bqvarbar/.style={%
+    %y tick label style={/pgf/number format/.cd,sci precision=5},
+    yticklabel={\pgfmathprintnumber{\tick}},
+    legend style={
+      legend pos = north west,
+      legend columns=1,
+      font=\footnotesize,
+    },
+    ybar,
+    bar width=9pt,
+    ymin=0,
+    ymax = 200000,
+    xmin=0.7,
+    xmax = 2.3,
+    scale only axis,
+    ylabel={\footnotesize{Variance ($\log_{10}$)}},
+    xlabel={\footnotesize{\# of lock in \bench{BQ}}},
+    xtick=data,
+    every axis y label/.append style={
+      yshift=-16pt,
+    },
+    width = 0.9\textwidth,
+    height=0.35\textwidth,
+    every axis/.append style={font=\footnotesize},
+    xlabel style={yshift=3pt}
+  }}
+
+\tikzstyle{codebox} = [draw, minimum width=.2\textwidth, node distance=1cm,
+rectangle, rounded corners, inner sep=1pt, inner ysep=8pt]
+\tikzstyle{fancytitle} =[fill=lightgray, text=black, font=\footnotesize]
+
+\tikzstyle{errorbox} = [draw, minimum width=.35\textwidth, node distance=1cm,
+rectangle, rounded corners, inner sep=1pt, inner ysep=8pt]
+
+\tikzstyle{rcbox} = [draw, minimum width=.2\textwidth, node distance=1cm,
+rectangle, rounded corners, inner sep=3pt, inner ysep=3pt]
+\pgfplotsset{tcdf/.style={%
+  tick label style={font=\normalsize},
+  label style={font=\normalsize},
+  ylabel= {累积分布(\%)},
+  %ylabel= {Ratio(\%)},
+  xlabel = {时间(分钟)},
+  ymin=0,
+  ytick={0, 20, 40, 60, 80, 100},
+  ymax=180,
+  scale only axis,
+  width=0.25\textwidth,
+  height=0.35\textwidth,
+  legend style={legend pos=north east, font=\normalsize},
+  xmin=0,
+  every axis y label/.append style={
+    yshift=-6pt,
+  },
+  every axis/.append style={font=\normalsize}
+}
+}
+
+\pgfplotsset{tcdf2/.style={%
+  tick label style={font=\normalsize},
+  label style={font=\normalsize},
+  ylabel= {累积分布(\%)},
+  %ylabel= {Ratio(\%)},
+  xlabel = {时间(分钟)},
+  ymin=0,
+  ytick={0, 20, 40, 60, 80, 100},
+  ymax=105,
+  scale only axis,
+  width=0.25\textwidth,
+  height=0.35\textwidth,
+  legend style={legend pos=south east, font=\normalsize},
+  xmin=0,
+  every axis y label/.append style={
+    yshift=-12pt,
+  },
+  every axis/.append style={font=\normalsize}
+}
+  }
+  \pgfplotsset{tcdf3/.style={%
+    tick label style={font=\normalsize},
+    label style={font=\normalsize},
+  ylabel= {累积分布(\%)},
+  %ylabel= {Ratio(\%)},
+  xlabel = {时间(分钟)},
+    ymin=0,
+    ytick={0, 20, 40, 60, 80, 100},
+    ymax=130,
+    scale only axis,
+    width=0.4\textwidth,
+    height=0.35\textwidth,
+    legend style={legend pos=north east, font=\normalsize},
+    xmin=0,
+    every axis y label/.append style={
+      yshift=-12pt,
+    },
+    every axis/.append style={font=\normalsize}
+  }
+}
+
+\pgfplotsset{qastack/.style={%
+  stack plots=y,
+  area style,
+  ytick={0, 20, 40, 60, 80, 100},
+  tick label style={font=\normalsize},
+  label style={font=\normalsize},
+  ylabel= {Cumulative Distribution(\%)},
+  xlabel = {Time difference(hours)},
+  ymin=0,
+  %ymax=110,
+%  xmax = 12,
+  xmin = 0.1,
+  xmax = 1400,
+  scale only axis,
+  width=0.32\textwidth,
+  height=0.2\textwidth,
+  legend style={legend pos=north west, font=\normalsize},
+  every axis y label/.append style={
+    yshift=-12pt,
+  },
+  every axis/.append style={font=\normalsize}
+}
+}
+\pgfplotsset{
+      % #1: index in the group(0,1,2,\ldots)
+      % #2: number of plots of that group
+  bar group size/.style 2 args={
+    /pgf/bar shift={%
+                                  % total width = n*w + (n-1)*skip
+                                  % -> subtract half for centering
+      -0.5*(#2*\pgfplotbarwidth + (#2-1)*\pgfkeysvalueof{/pgfplots/bar group skip})  +
+                                                  % the '0.5*w' is for centering
+      (.5+#1)*\pgfplotbarwidth + #1*\pgfkeysvalueof{/pgfplots/bar group skip}},%
+    },
+    bar group skip/.initial=2pt,
+    tbb/.style={black, fill=black!30, pattern=crosshatch},%
+    tbbpatch/.style={black, fill=yellow!30, pattern=north east lines},%
+    ff/.style={black, fill=black},%
+    %tbbpatch/.style={red,fill=red!30!white,mark=none},%
+    %ff/.style={brown!60!black,fill=brown!30!white,mark=none},%
+  }
+
+

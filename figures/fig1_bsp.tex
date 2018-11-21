@@ -1,0 +1,51 @@
+\begin{tikzpicture}
+
+\path[draw=blue!20,solid,line width=2mm,fill=blue!20,
+preaction={-triangle 90,thin,fill=blue!20, draw=blue!20,shorten >=-1mm}
+] (6.5, 1.5) -- node{任务1} ++(2.4, 0);
+
+\path[draw=blue!20,solid,line width=2mm,fill=blue!20,
+preaction={-triangle 90,thin,fill=blue!20, draw=blue!20,shorten >=-1mm}
+] (6.5, 0.5) -- node{任务2} ++(2.4, 0);
+
+\path[draw=blue!20,solid,line width=2mm,fill=blue!20,
+preaction={-triangle 90,thin,fill=blue!20, draw=blue!20,shorten >=-1mm}
+] (6.5, -0.5) -- node{任务3} ++(2.4, 0);
+
+\path[draw=blue!20,solid,line width=2mm,fill=gray!20,
+preaction={-triangle 90,thin,fill=blue!20, draw=blue!20,shorten >=-1mm}
+] (6.5, -1.5) -- node{任务4} ++(2.4, 0);
+
+\path[draw=blue!20,solid,line width=2mm,fill=blue!20,
+preaction={-triangle 90,thin,fill=blue!20, draw=blue!20,shorten >=-1mm}
+] (10, 1.5) -- node{任务5} ++(2.4, 0);
+
+\path[draw=blue!20,solid,line width=2mm,fill=blue!20,
+preaction={-triangle 90,thin,fill=blue!20, draw=blue!20,shorten >=-1mm}
+] (10, 0.5) -- node{任务6} ++(2.4, 0);
+
+\path[draw=blue!20,solid,line width=2mm,fill=blue!20,
+preaction={-triangle 90,thin,fill=blue!20, draw=blue!20,shorten >=-1mm}
+] (10, -0.5) -- node{任务7} ++(2.4, 0);
+
+\path[draw=blue!20,solid,line width=2mm,fill=gray!20,
+preaction={-triangle 90,thin,fill=blue!20, draw=blue!20,shorten >=-1mm}
+] (10, -1.5) --node{任务8} ++(2.4, 0);
+
+\draw [-] (9, 1.6) -- (9, -1.6);
+\draw [-] (9.9, 1.6) -- (9.9, -1.6);
+
+\draw [->] (9.05, 1.5) -- (9.85, 0.5);
+\draw [->] (9.05, 1.5) -- (9.85, -0.5);
+\draw [->] (9.05, 0.5) -- (9.85, 1.5);
+\draw [->] (9.05, 0.5) -- (9.85, -1.5);
+\draw [->] (9.05, -0.5) -- (9.85, 1.5);
+\draw [->] (9.05, -0.5) -- (9.85, -1.5);
+\draw [->] (9.05, -1.5) -- (9.85, 0.5);
+\draw [->] (9.05, -1.5) -- (9.85, -0.5);
+
+\node at(11.2, -2.2){超步0};
+\node at(7.8, -2.2){超步1};
+\node at(9.5, -2.2){同步};
+
+\end{tikzpicture}

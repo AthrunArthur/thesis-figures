@@ -1,0 +1,17 @@
+
+\normalsize
+\begin{tabular}{|c|c|c|}
+\hline
+ 依赖表达式 & 依赖表达式的类型 & 回调函数{\code{f}}的参数类型\\
+\hline
+(\code{e}).\method{then}(\method{f}) & \code{e}: \type{T} & \type{T}\\
+\hline
+(\code{e1\&\&e2}).\method{then}(\method{f}) & \code{e1}: \type{T}, \code{e2}: \type{void} & \type{T} \\
+(\code{e1\&\&e2}).\method{then}(\method{f}) & \code{e1}: \type{void}, \code{e2}: \type{T} & \type{T} \\
+(\code{e1\&\&e2}).\method{then}(\method{f}) & \code{e1}: \type{T1}, \code{e2}: \type{T2} & \type{T1}, \type{T2} \\
+\hline
+(\code{e1{\textbar\textbar}e2}).\method{then}(\method{f}) & \code{e1}: \type{T}, \code{e2}: \type{void} & \type{bool}, \type{T} \\
+(\code{e1{\textbar\textbar}e2}).\method{then}(\method{f}) & \code{e1}: \type{T}, \code{e2}: \type{void} & \type{bool}, \type{T} \\
+(\code{e1{\textbar\textbar}e2}).\method{then}(\method{f}) & \code{e1}: \type{T1}, \code{e2}: \type{T2} & \type{int}, \code{std::tuple$<$\type{T1}, \type{T2}$>$} \\
+\hline
+\end{tabular}

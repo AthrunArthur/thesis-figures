@@ -1,0 +1,47 @@
+\begin{figure*}
+\centering
+\begin{tikzpicture}[scale=\exfigscale, every node/.style={scale=\exfigscale}]
+  \node[codebox] (box){
+    \begin{minipage}{.85\textwidth}
+      \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\kw{using namespace} tbb;
+\kw{struct} Parallel\{
+queuing_mutex mutex;
+\kw{void} operator() (blocked_range<size_t> & range ) \kw{const} \{
+ queuing_mutex::scoped_lock lock(mutex);
+  ...
+ \}
+\};
+std::vector<\kw{int}> data;
+parallel_for(blocked_range<size_t>(0, data.size()),Parallel(&data));
+     \end{Verbatim}
+      \end{minipage}
+  };
+  \node[fancytitle, right=10pt] at (box.north west) {代码片段};
+
+  \node[errorbox,text width=.85\textwidth] (error) [below = 10pt of box] {
+    \begin{minipage}{.85\textwidth}
+      \begin{Verbatim}[fontsize=\footnotesize, commandchars=\\\{\}]
+\fp{main.cpp}:18:26: error: no matching constructor for initialization of
+  `queuing_mutex::scoped_lock'
+\fp{\ldots{}/tbb/queuing_mutex.h}:58:11:note: candidate constructor not viable:
+  no known conversion from `const tbb::queuing_mutex' to
+    'const tbb::queuing_mutex::scoped_lock' for 1st argument
+\fp{\ldots{}/tbb/parallel_for.h}:57:13: error: call to implicitly-deleted
+  copy constructor of `const Parallel'
+\fp{main.cpp}:18:26: error: no matching constructor for initialization of
+  `queuing_mutex::scoped_lock'
+\fp{\ldots{}/tbb/queuing_mutex.h}:58:11:note: candidate constructor not viable:
+  no known conversion from `const tbb::queuing_mutex' to
+    'const tbb::queuing_mutex::scoped_lock' for 1st argument
+\fp{\ldots{}/tbb/parallel_for.h}:57:13: error: call to implicitly-deleted
+  copy constructor of `const Parallel'
+     \end{Verbatim}
+      \end{minipage}
+    };
+
+    \node[fancytitle, right=10pt] at (error.north west) {编译错误信息};
+  \end{tikzpicture}
+  \caption{一个关于不可拷贝对象的例子\cite{tbbcopy}. Note that the error message fails to point out that the \cpp{Parallel} object should be copyable.}
+  \label{fig:copy}
+\end{figure*}

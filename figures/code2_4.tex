@@ -1,0 +1,10 @@
+
+  \begin{lstlisting}[mathescape]
+template<class F>
+void then(F && f){
+ static_assert(Check_Assert<F>::value,
+               "You can only call *then* right after
+               calling operator(...), like this,
+               para<> a;
+               a[b]([](){...}).then(...);");}
+  \end{lstlisting}

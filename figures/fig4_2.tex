@@ -1,0 +1,66 @@
+\begin{tikzpicture}
+\node[gamma] at (1, 1) {\task{I}};
+\node[beta] at (1.5, 1){\task{G}};
+\node[alpha] at (2, 1) {\task{D}};
+\node[beta] at (1, 1.8) {\task{H}};
+\node[gamma] at (1.5, 1.8) {\task{F}};
+\node[alpha] at(2, 1.8) {\task{C}};
+\node[beta] at(1, 2.6) {\task{E}};
+\node[alpha] at(1.5, 2.6) {\task{B}};
+\node[alpha] at(2, 2.6) {\task{A}};
+
+\draw [->]  (0.5, 1) -- (0.7, 1);
+\draw [->]  (0.5, 1.8) -- (0.7, 1.8);
+\draw [->]  (0.5, 2.6) -- (0.7, 2.6);
+\node[draw=none, fill=none] at(0.25, 2.8) {\tiny{入队}};
+\node[draw=none, fill=none] at(2.7, 2.8) {\tiny{出队}};
+
+\draw[->, snake=snake, line after snake=1mm] (2.4, 1) --(3.2, 1);
+\draw[->, snake=snake, line after snake=1mm] (2.4, 1.8) -- (3.2, 1.8);
+\draw[->, snake=snake, line after snake=1mm] (2.4, 2.6) -- (3.2, 2.6);
+\node[draw=none, fill=none] at(2.45, 0.75) {\tiny{$Q_2$}};
+\node[draw=none, fill=none] at(2.45, 1.55) {\tiny{$Q_1$}};
+\node[draw=none, fill=none] at(2.45, 2.35) {\tiny{$Q_0$}};
+
+\draw [dashed] (0.4, 0.6) -- (7.0, 0.6);
+\draw [dashed] (0.4, 1.4) -- (7.0, 1.4);
+\draw [dashed] (0.4, 2.2) -- (7.0, 2.2);
+
+\draw[dotted] (3.4, 0.7) -- (3.4, 3);
+\node[alpha] at(3.8, 2.6) {\task{B}};
+
+\draw[dotted] (4.2, 0.7) -- (4.2, 3);
+\node[blank] at(4.6, 2.6) {};
+\node[alpha] at(4.6, 1) {\task{D}};
+\node[beta] at(4.6, 1.8) {\task{H}};
+
+
+\draw[dotted] (5, 0.7) -- (5, 3);
+\node[gamma] at(5.4, 1) {\task{I}};
+\node[alpha] at(5.4, 1.8) {\task{C}};
+\node[beta] at(5.4, 2.6) {\task{E}};
+
+
+\draw[dotted] (5.8, 0.7) -- (5.8, 3);
+
+\node[beta] at(6.2, 1) {\task{G}};
+\node[gamma] at(6.2, 1.8) {\task{F}};
+\node[alpha] at(6.2, 2.6) {\task{A}};
+
+\draw[->>] (3.4, 3.1) --(6.5, 3.1);
+\node at(1.6, 3.6) {\figfont{任务队列}};
+\node at(5.0, 3.6) {\figfont{执行序列}};
+\draw[snake=brace,raise snake=8 pt, mirror snake] (3.4, 0.8) --   (6.5, 0.8)
+node [black,midway,yshift=-15pt] {\textbf{4个时间片}};
+
+\node[draw=none, fill=none] at(7.0, 1) {\tiny{$thrd_2$}};
+\node[draw=none, fill=none] at(7.0, 1.8) {\tiny{$thrd_1$}};
+\node[draw=none, fill=none] at(7.0, 2.6) {\tiny{$thrd_0$}};
+
+
+
+\node[alpha] at(10, 3.2) [ label=right:{\figfont{Lock $\alpha$}}] {};
+\node[beta] at(10, 2.4) [label=right:{\figfont{Lock $\beta$}}] {};
+\node[gamma] at(10, 1.6) [label=right:{\figfont{Lock $\gamma$}}] {};
+\node[blank] at(10, 0.8) [label=right:{\figfont{阻塞CPU}}]{};
+\end{tikzpicture}

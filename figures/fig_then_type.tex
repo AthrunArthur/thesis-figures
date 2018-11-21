@@ -1,0 +1,54 @@
+\begin{figure*}
+\centering
+\subcaptionbox{Code snippet.}{
+\begin{minipage}{0.3\linewidth}
+\usebox{\thenlisting}
+\end{minipage}
+}
+\subcaptionbox{Declaration of \code{func}.}{
+\begin{minipage}{0.6\linewidth}
+\begin{tikzpicture}
+\tikzset{
+code/.style={on grid, align=center, minimum height=4ex, node distance=-1mm },
+coord/.style={coordinate, on grid, node distance=6mm and 25mm},
+}
+\node [code] (f0) {\fcode{func}};
+\node [code, right=of f0.east] (f1) {\fcode{(\fkw{int},}};
+\node [code, right=of f1.east] (f2) {\fcode{std::tuple<}};
+\node [code, right=of f2.east] (f3) {\fcode{\fkw{int},}};
+\node [code, right=of f3.east] (fs) {\fcode{std::tuple<}};
+\node [code, right=of fs.east] (f4) {\fcode{\fkw{char},}};
+\node [code, right=of f4.east] (f5) {\fcode{\fkw{float}>,}};
+\node [code, right=of f5.east] (f6) {\fcode{\fkw{double}>);}};
+
+\node [code, below=1.4cm of f1.east, anchor=west](t1){\figfont{indicator, 0: \code{a}
+returns; 1: \code{b\&\&c} returns; 2: \code{d} returns.}};
+\node [code, below=0.6cm of f3](t2) {\figfont{\code{a}'s ret-type}};
+\node [code, below=1cm of f4](t3) {\figfont{\code{b}'s ret-type}};
+\node [code, below=0.6cm of f5](t4){\figfont{\code{c}'s ret-type}};
+\node [code, below=1cm of f6](t5){\figfont{\code{d}'s ret-type}};
+
+\node [coord, below=-1mm of f1.south] (f1s){};
+\node [coord, below=-1mm of f3.south] (f3s){};
+\node [coord, below=-1mm of f4.south] (f4s){};
+\node [coord, below=-1mm of f5.south] (f5s){};
+\node [coord, below=-1mm of f6.south] (f6s){};
+\node [coord, left=-1mm of t1.west] (t1s){};
+\node [coord, above=-1mm of t2.north] (t2s){};
+\node [coord, above=-1mm of t3.north] (t3s){};
+\node [coord, above=-1mm of t4.north] (t4s){};
+\node [coord, above=-1mm of t5.north] (t5s){};
+
+\draw[->] (f1s) --(f1s |- t1s) -- (t1s);
+\draw[->] (f3s) -- (t2s);
+\draw[->] (f4s) -- (t3s);
+\draw[->] (f5s) -- (t4s);
+\draw[->] (f6s) -- (t5s);
+
+\end{tikzpicture}
+\end{minipage}
+}
+\caption {An example of specifying callback function for \code{then}.}
+\label{fig:then_example}
+
+\end{figure*}

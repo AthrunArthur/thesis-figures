@@ -1,0 +1,43 @@
+\begin{figure}
+\centering
+%\begin{tabular}{C{0.2\textwidth}C{0.2\textwidth}C{0.2\textwidth}C{0.2\textwidth}C{0.2\textwidth}}
+{
+  \setlength{\tabcolsep}{0pt}
+\begin{tabular}{ccc}
+  \subfigure[\bh{TM}]{
+  \scalebox{\cmfigscale}{
+    \begin{tikzpicture}
+  \input{../figures/fig_match.tex}
+\end{tikzpicture}}
+} &
+\subfigure[\bh{CQ}]{
+  \scalebox{\cmfigscale}{
+  \begin{tikzpicture}
+  \input{../figures/fig_const.tex}
+\end{tikzpicture}}
+} &
+\subfigure[\bh{CP}]{
+  \scalebox{\cmfigscale}{
+  \begin{tikzpicture}
+  \input{../figures/fig_copy.tex}
+\end{tikzpicture}}
+} \\
+\end{tabular}}
+\begin{tabular}{cc}
+\subfigure[\bh{ST}]{
+  \scalebox{\cmfigscale}{
+  \begin{tikzpicture}
+  \input{../figures/fig_atomic.tex}
+\end{tikzpicture}}
+} &
+\subfigure[\bh{OM}]{
+  \scalebox{\cmfigscale}{
+  \begin{tikzpicture}
+  \input{../figures/fig_outdate.tex}
+\end{tikzpicture}}
+} \\
+\end{tabular}
+
+\caption{Cumulative Distribution Function (CDF) of testers' time for figuring out the compilation errors.}
+\label{fig:ces}
+\end{figure}

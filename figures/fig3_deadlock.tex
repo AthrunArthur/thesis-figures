@@ -1,0 +1,62 @@
+\begin{tikzpicture}
+
+\tikzset{
+  coord/.style={coordinate, on grid, node distance=6mm and 25mm},
+}
+
+\draw [->] (0, 5) -- (0, 0);
+\node at (0, 5.5) {线程1};
+
+\draw [->] (2, 5) -- (2, 0);
+\node at (2, 5.5) {线程2};
+
+\node (a1) at (-3, 4.5) {\code{para<int> a, b;}};
+\node (a2) at (-3, 4) {\code{a([n](){return fib(n-1);});}};
+\node (a3) at (-3, 3.5) {\code{b([n](){return fib(n-2);});}};
+\node (a4) at (-3, 3) {\code{return (a\&\&b).then(...);}};
+
+\node [coord] (l1) at (0, 5){};
+\node [coord] (c1) at (a1.east -| l1){};
+\draw [->] (a1.east) to (c1);
+
+\node [coord] (c2) at (a2.east -| l1){};
+\draw [->] (a2.east) to (c2);
+
+
+\node [coord] (c3) at (a3.east -| l1){};
+\draw [->] (a3.east) to (c3);
+
+\node [coord] (c4) at (a4.east -| l1){};
+\draw [->] (a4.east) to (c4);
+
+\draw [->, dashed] (c2) -- ++($(2, -0.5)$) node[midway,above]{调度};
+
+\node [coord] (cl2) at ($(c1) + (2, -0.6)$){};
+
+\node (b1) at ($(cl2) + (3, -0.5)$) {\code{para<int> a, b;}};
+\node (b2) at ($(cl2) + (3, -1)$) {\code{a([n](){return fib(n-1);});}};
+\node (b3) at ($(cl2) + (3, -1.5)$) {\code{b([n](){return fib(n-2);});}};
+\node (b4) at ($(cl2) + (3, -2)$) {\code{return (a\&\&b).then(...);}};
+
+\node [coord] (l2) at (2, 5){};
+\node [coord] (cb1) at (b1.west -| l2){};
+\draw [->] (b1.west) to (cb1);
+\node [coord] (cb2) at (b2.west -| l2){};
+\draw [->] (b2.west) to (cb2);
+\node [coord] (cb3) at (b3.west -| l2){};
+\draw [->] (b3.west) to (cb3);
+
+\node [coord] (cb4) at (b4.west -| l2){};
+\draw [->] (b4.west) to (cb4);
+
+
+\draw [decorate,decoration={brace,raise=2pt}]
+(cb4) --  (2, 0) node[midway,
+right=2pt]{死锁};
+
+\draw [decorate,decoration={brace,raise=2pt, mirror}]
+(c4) --  (0, 0) node[midway,left=2pt]{死锁};
+
+\node at (-3, 5) {\textbf{n=10}};
+\node at (5, 4) {\textbf{n=9}};
+\end{tikzpicture}

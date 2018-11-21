@@ -1,0 +1,17 @@
+\begin{figure}[!t]
+\centering
+\begin{tabular}{T{.4\textwidth}T{.08\textwidth} T{.4\textwidth}}
+  \subfigure[\bench{BQ} ]{
+\label{fig-bq-var}
+    \scalebox{0.9}{\begin{tikzpicture}[trim axis left]
+      \input{../figures/bq_var.tex}
+    \end{tikzpicture}}}  & &
+  \subfigure[\bench{VN} ]{
+\label{fig-ff-mutex}
+      \scalebox{0.9}{\begin{tikzpicture}[trim axis left]
+        \input{../figures/vacation_var.tex}
+      \end{tikzpicture}}} \\
+ \end{tabular}
+ \caption{ {\bf The variance of lock-acquisition for \bench{BQ} and \bench{VN}.}}
+\label{fig:lockvar}
+\end{figure}

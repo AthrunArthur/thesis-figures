@@ -1,0 +1,13 @@
+
+\begin{lstlisting}[mathescape]
+para< > run(){
+  para< > a = create_task(params);
+  a.then(f1);
+  ...
+  return a;
+}
+...
+
+para< > task = run();
+task.then(f2);
+\end{lstlisting}

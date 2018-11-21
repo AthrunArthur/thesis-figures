@@ -1,0 +1,20 @@
+\begin{figure}
+\centering
+  \begin{tabular}{T{.4\textwidth} T{0.02\textwidth} T{.55\textwidth} }
+  \subfigure[figbotcap][\cpp{push\_front}]{
+  \label{fig:pushfront}
+  \centering
+  \usebox{\pushfrontlisting}
+  } & &
+  \subfigure[figbotcap][\cpp{steal}]{
+  \label{fig:steal}
+  \centering
+  \usebox{\steallisting}
+  }
+  \end{tabular}
+  \caption{{\bf Code snippets to illustrate \cpp{push\_front} and
+  \cpp{steal}.} Note that we involve \cpp{m\_status} to make sure that
+  \cpp{push\_front} is mutual exclusive with \cpp{steal}, while multiple
+  \cpp{steal}s can execute concurrently.}
+  \label{fig:pushsteal}
+\end{figure}

@@ -1,0 +1,463 @@
+\usepackage{xeCJK}
+
+%\ifStandaloneMode
+%\else
+%\usepackage{makecell}
+%\fi
+
+\usepackage{listings}
+\usepackage{afterpage}
+\usepackage{multirow}
+\usepackage{CJKfntef}
+\usepackage[perpage,symbol*]{footmisc}
+\usepackage{tikz}
+\usepackage{tikzscale}
+
+\usepackage{pgfplots}
+\usepackage{fancyvrb}
+\usepackage{tabularx}
+\usepackage{color, colortbl}
+\usepackage[section]{placeins}
+\usepackage{alltt}
+\usepackage[linesnumbered, longend, ruled,vlined]{algorithm2e}
+\usepackage{algorithmic}
+\usepackage{subfigure}
+%\usepackage[ruled, linesnumbered]{algorithm2e}
+\renewcommand{\algorithmcfname}{算法}
+
+%\usepackage{amsthm}
+
+
+
+
+
+
+
+% addpackages, by jpwu
+\usepackage[squaren]{SIunits}
+\usepackage{float}
+%带圈的数字
+\usepackage{pifont}
+%解决中文连字符左边有空格的问题
+\normalspacedchars{-}
+
+
+\newenvironment{CenteredBox}{%
+\begin{Sbox}}{% Save the content in a box
+\end{Sbox}\centerline{\parbox{\wd\@Sbox}{\TheSbox}}}% And output it centered
+
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}@{\,}}
+\newcolumntype{T}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}@{}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\newenvironment{mcode}{\begin{alltt}}{\end{alltt}}
+
+\ifdefined\StandaloneMode
+%nothing here
+\else
+\lstset{emph={long, class, return, public, const, if, else, using, namespace, struct, for, int,char, typedef, void, double, float, static_cast, new},emphstyle=\color{blue}\sffamily, 					basicstyle=\ttfamily,
+  moredelim=[is][\color{red}]{^}{^}}
+
+\lstset{language=C++,
+                basicstyle=\ttfamily\footnotesize,
+                keywordstyle=\color{blue}\ttfamily\footnotesize,
+                stringstyle=\color{red}\ttfamily\footnotesize,
+                commentstyle=\color{green}\ttfamily\footnotesize,
+                morecomment=[l][\color{magenta}]{\#}
+}
+\lstset{%
+  escapeinside={(*}{*)},%
+}
+\fi
+
+%\newenvironment{CenteredBox}{%
+%\begin{Sbox}}{% Save the content in a box
+%\end{Sbox}\centerline{\parbox{\wd\@Sbox}{\TheSbox}}}% And output it centered
+
+
+\newcommand{\bh}[1]{\texttt{#1}}
+\newcommand{\cpp}[1]{\texttt{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\cat}[1]{{\it #1}}
+\newcommand{\state}[1]{\textsf{#1}}
+\newcommand{\figfont}[1]{{\footnotesize #1}}
+\newcommand{\disscus}[1]{{\color{red}#1}}
+\newcommand{\msg}[1]{{\color{red}{\bf #1}}}
+
+\newcommand{\todo}[1]{{\color{blue}#1}}
+\newtheorem{finding}{发现}
+
+\newcommand{\tbbpatch}{\textsc{P-TBB}}
+\newcommand{\name}{\textsc{FF}}
+\newcommand{\fname}{Function Flow}
+\newcommand{\sslink}{SSLink}
+\newcommand{\msusfont}[1]{{\textsl #1}}
+\newcommand{\msus}{\textsl{plbcr}}
+\newcommand{\exfigscale}{0.92}
+\newcommand{\cmfigscale}{0.85}
+
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\false}{\code{false}}
+\newcommand{\true}{\code{true}}
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\tmark}{\ding{66}}
+
+
+\definecolor{kwcolor}{rgb}{.5,.3,.0}
+\definecolor{fpcolor}{rgb}{.0,.3,.5}
+\newcommand{\kw}[1]{{\color{kwcolor}{#1}}}
+\newcommand{\fkw}[1]{{\kw{\figfont{#1}}}}
+\newcommand{\dexpr}{{\textmd{D-Expr}}}
+\newcommand{\type}[1]{\code{#1}}
+\newcommand{\method}[1]{\code{#1}}
+
+\newcommand{\fp}[1]{{\color{fpcolor} {#1}}}
+\newcommand{\fun}[1]{{\color{red} {#1}}}
+\newcommand{\task}[1]{\texttt{$#1$}}
+\newcommand{\fcode}[1]{\figfont{\texttt{#1}}}
+\newcommand{\bench}[1]{{\footnotesize{\textsf{#1}}}}
+
+\newsavebox{\codebox}
+
+
+
+
+
+
+\newcommand{\pushfrontalgo}{%
+  \begin{algorithm}[H]
+    \SetAlgoLined
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+%\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\SetKw{KwBreak}{Break}
+\KwIn{The array in the queue, $Q$;}
+\KwIn{The queue's head, $head$;}
+\KwIn{The queue's tail, $tail$;}
+\KwIn{The queue's length, $len$;}
+\KwIn{The task to push into the queue, $t$;}
+\KwIn{Atomic boolean variable to mark if there is any thief, $is\_stealing$;}
+\KwIn{Atomic boolean variable to mark this process is ongoing,
+  $is\_pushing\_front$;}
+\KwOut{Push the task $t$ into the queue}
+
+$is\_pushing\_front$ $\leftarrow$ true \;
+\While{$is\_stealing$} ;
+\eIf{$head$ == 0}{
+  $head \leftarrow$ $ len$ \;
+  $tail \leftarrow$ $ tail + len $ \;
+}{}
+$Q[(head - 1)] \leftarrow$ $t$ \;
+$head \leftarrow$ $head-1$ \;
+\caption{The \cpp{push\_front} algorithm of for the work-stealing queue.}
+\label{alg:pushfront}
+\end{algorithm}}
+
+\newcommand{\takeorstealalgo}{%
+\begin{algorithm}[H]
+  \SetAlgoLined
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+\SetKwInOut{Input}{输入}\SetKwInOut{Output}{输出}
+%\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\SetKw{KwBreak}{Break}
+\Input{当前线程任务队列\code{WSQ}；}
+\Input{当前线程挂起任务队列\code{STQ}；}
+\Input{当前线程计数器\code{this}；}
+task = WSQ.pop()\;
+\eIf{is\_valid(task)}{
+  \KwRet task\;
+}
+{
+  c ++\;
+  \eIf {c\&1 == 0}{
+    task = steal\_task()\;
+    \eIf{is\_valid(task)}{
+      \KwRet task\;
+    }
+    {
+      \KwRet STQ.pop()\;
+    }
+  }
+  {
+    task = STQ.pop()\;
+    \eIf{is\_valid(task)}{
+      \KwRet task\;
+    }
+    {
+      \KwRet steal\_task()\;
+    }
+  }
+}
+\end{algorithm}}
+
+\newcommand{\thenalgo}{%
+\begin{algorithm}[H]
+  \SetAlgoLined
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+\SetKwInOut{Input}{输入}\SetKwInOut{Output}{输出}
+%\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\SetKw{KwBreak}{Break}
+\Input{依赖表达式回调函数\code{func}；}
+\Output{依赖表达式的指针\code{this}。}
+%\Begin{
+\While{!this->{check\_if\_over}()}{
+  task = runtime::take\_or\_steal\_one\_task()\;
+
+  \eIf {is\_valid(task)}{
+    runtime::execute\_task(task)\;
+  }{
+    runtime::yield()\;
+  }
+}
+call\_with\_ret\_vals(func)\;
+\label{alg:runtask}
+\end{algorithm}}
+
+\newcommand{\executetaskalgo}{%
+\begin{algorithm}[H]
+  \SetAlgoLined
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+\SetKwInOut{Input}{输入}\SetKwInOut{Output}{输出}
+%\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\SetKw{KwBreak}{Break}
+\Input{需要执行的任务\code{task}；}
+\Input{任务\code{task}所依赖的前提条件，依赖表达式\code{DE}；}
+\Input{当前线程挂起任务队列\code{STQ}。}
+%\Begin{
+task.state = \state{running} \;
+\eIf{DE.check\_if\_over()}{
+  task.run()\;
+  task.state = \state{over}\;
+}
+{
+  STQ.push(task)\;
+}
+\end{algorithm}}
+
+\newcommand{\suspendpopalgo}{%
+\begin{algorithm}[H]
+  \SetAlgoLined
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+\SetKwInOut{Input}{输入}\SetKwInOut{Output}{输出}
+%\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\SetKw{KwBreak}{Break}
+\Input{任务, \code{t}。}
+%\Begin{
+h = head \;
+\If {h == tail}{
+  \KwRet invalid\_task\;
+}
+r = array[h\%length]\;
+\While{!cas(\&head, h, h+1)}{
+  h = head\;
+  \If{h == tail}{
+    \KwRet invalid\_task \;
+  }
+  r = array[h\%length]\;
+}
+\end{algorithm}}
+
+\newcommand{\suspendpushalgo}{%
+\begin{algorithm}[H]
+  \SetAlgoLined
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+\SetKwInOut{Input}{输入}\SetKwInOut{Output}{输出}
+%\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\SetKw{KwBreak}{Break}
+\Input{任务, \code{t}。}
+%\Begin{
+\If{head-tail $>$ length}{
+  resize\_array()\;
+}
+queue[tail\%length] = t\;
+tail ++\;
+\end{algorithm}}
+
+\newcommand{\schedulealgo}{%
+\begin{algorithm}[H]
+  \SetAlgoLined
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+\SetKwInOut{Input}{输入}\SetKwInOut{Output}{输出}
+%\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\SetKw{KwBreak}{Break}
+\Input{当前线程所对应的任务队列, {$Q$};}
+\Output{线程队列中的所有任务执行完毕。}
+%\Begin{
+  \While{is\_running}{
+    $t$ $\leftarrow$ dequeue{($Q$)} \;
+    t\_record\_lock($\cdots$)\; \label{code:alg:runtask:record}
+    \eIf{t\_checker($\cdots$)}{ \label{code:alg:runtask:check}
+      enqueue($Q$, $t$)\; \label{code:alg:runtask:enque}
+    }{
+      execute\_task($t$)\; \label{code:alg:runtask:execute}
+    }\label{code:endif}
+    t\_erase\_lock($\cdots$)\; \label{code:alg:runtask:erase}
+  %}
+}
+\label{alg:runtask}
+\end{algorithm}}
+
+\newcommand{\recordalgo}{%
+\begin{algorithm}[H]
+%  \SetAlgoLined
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+\SetKwInOut{Input}{输入}\SetKwInOut{Output}{输出}
+\SetKw{KwBreak}{break}
+\SetKw{KwNull}{null}
+\Input{锁$l$，以及全局锁集$LS$}
+\Output{将锁$l$添加到全局锁集$LS$中。}
+%\Begin{
+  $i \leftarrow$ local\_threrad\_id\;
+      \For{$j\leftarrow 0$ \KwTo len($LS[i]$)}{
+        \If{$LS[i][j] = $ \KwNull}{
+          $LS[i][j]$.atomic\_store($l$)\;
+          \KwBreak
+        }
+      }
+%}
+\label{alg:recordlock}
+\end{algorithm}}
+
+\newcommand{\erasealgo}{%
+\begin{algorithm}[H]
+%  \SetAlgoLined
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+\SetKwInOut{Input}{输入}\SetKwInOut{Output}{输出}
+\SetKw{KwBreak}{break}
+\SetKw{KwNull}{null}
+\Input{锁$l$，以及全局锁集$LS$}
+\Output{将锁$l$从锁集$LS$中移除。}
+%\Begin{
+  $i \leftarrow$ local\_threrad\_id\;
+      \For{$j\leftarrow 0$ \KwTo len($LS[i]$)}{
+        \If{$LS[i][j] = l$}{
+          $LS[i][j]$.atomic\_store(\KwNull)\;
+          \KwBreak
+        }
+      }
+%}
+\label{alg:eraselock}
+\end{algorithm}}
+
+\newcommand{\islockalgo}{%
+\begin{algorithm}[H]
+%  \SetAlgoLined
+\SetKwData{Left}{left}\SetKwData{This}{this}\SetKwData{Up}{up}
+\SetKwFunction{Union}{Union}\SetKwFunction{FindCompress}{FindCompress}
+\SetKwInOut{Input}{输入}\SetKwInOut{Output}{输出}
+\Input{锁$l$，以及全局锁集$LS$}
+\Output{如果$l \in LS$则返回{\true}，否则返回 {\false}。}
+%\Begin{
+  $i \leftarrow$ local\_threrad\_id\;
+  \For{$s\leftarrow 0$ \KwTo len($LS$)} {
+    \If{$s\ne i$}{
+      \For{$j\leftarrow 0$ \KwTo len($LS[s]$)}{
+        \If{$LS[s][j] = l$}{
+          \KwRet \true\;
+        }
+      }
+    }
+  }
+  \KwRet \false\;
+%}
+\label{alg:islock}
+\end{algorithm}}
+
+\newcommand{\figwslb}{%
+  \begin{minipage}{.4\textwidth}
+      \begin{figure}[H]
+        \scalebox{0.9}{
+          \begin{tikzpicture}
+            \input{figures/fig_lb_overall.tex}
+          \end{tikzpicture}}
+        \caption{{\bf Load balancing of integrating {\name} with work
+            stealing.}}
+        \label{fig:lb}
+      \end{figure}
+      \end{minipage}
+}
+
+\newcommand{\figwscache}{%
+  \begin{minipage}{.4\textwidth}
+      \begin{figure}[H]
+        \scalebox{0.9}{
+         \begin{tikzpicture}
+            \input{figures/fig_cachemiss.tex}
+         \end{tikzpicture}}
+        \caption{{\bf Cache miss rate of integrating {\name} with work
+            stealing.}}
+        \label{fig:cm}
+      \end{figure}
+      \end{minipage}
+}
+
+\newcommand{\figmicrovar}{%
+  \begin{minipage}{.44\textwidth}
+\begin{figure}[H]
+  \centering
+  \scalebox{0.9}{
+  \begin{tikzpicture}
+    \input{figures/micro_var.tex}
+  \end{tikzpicture}}
+  \caption{ {\bf Variance of lock acquisition for micro-benchmark.}}
+  \label{fig:lockacq}
+\end{figure}
+\end{minipage}
+}
+
+\newcommand{\figholdmutex}{%
+  \begin{minipage}{.44\textwidth}
+\begin{figure}[H]
+  \centering
+  \scalebox{0.9}{
+  \begin{tikzpicture}
+    \input{figures/mutex_hold.tex}
+  \end{tikzpicture}}
+\caption{{\bf Speedup v.s. lock holding time ratio.}}
+\label{fig:mutexhold}
+\end{figure}
+\end{minipage}
+}
+
+
+
+
+\newcommand{\tablock}{%
+  \begin{minipage}{.45\textwidth}
+\begin{table}[H]
+  \caption{{\bf Number of locks in each application.} O(N) for \bench{SSCA} means
+    the number of locks depends on input size. In our evaluation of
+    \bench{SSCA}, there are $2^{16}$ locks. \label{tab:locks}}%
+\centering
+ \begin{tabular}{|T{0.4\textwidth}|T{0.25\textwidth}|c|}
+\hline
+Category & Benchmark & \# of Locks \\
+\hline
+\multirow{3}{*}{Target Apps}  &
+\bench{BQ} & 2 \\
+& \bench{VN} & 4 \\
+& \bench{SSCA} & O(N) \\
+\hline
+\multirow{3}{*}{Non-target Apps}  &
+ \bench{CA} & 0 \\
+& \bench{SC} & 1 \\
+& \bench{QS} & 0 \\
+\hline
+\end{tabular}
+\end{table}
+\end{minipage}
+}
+
+
+
+

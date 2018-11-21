@@ -1,0 +1,147 @@
+
+
+\usetikzlibrary{snakes}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{patterns}
+\usetikzlibrary{shapes,arrows,chains}
+\usepgfplotslibrary{patchplots,colormaps}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning, fit}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{intersections}
+
+\pgfdeclareshape{hline rectangle}{
+  % Copy some stuff from the rectangle
+  \inheritsavedanchors[from={rectangle}]
+  \inheritanchor[from={rectangle}]{center}
+  \inheritanchor[from={rectangle}]{north}
+  \inheritanchor[from={rectangle}]{south}
+  \inheritanchor[from={rectangle}]{east}
+  \inheritanchor[from={rectangle}]{west}
+  \inheritanchorborder[from={rectangle}]
+  \backgroundpath{%
+     \pgfmathsetlengthmacro\outerxsep{\pgfkeysvalueof{/pgf/outer xsep}}%
+     \pgfmathsetlengthmacro\outerysep{\pgfkeysvalueof{/pgf/outer ysep}}%
+     \pgfpointadd{\southwest}{\pgfpoint{\outerxsep}{\outerysep}}%
+     \pgfgetlastxy\a\b
+     \pgfpointadd{\northeast}{\pgfpointscale{-1}{\pgfpoint{\outerxsep}{\outerysep}}}%
+     \pgfgetlastxy\c\d
+     \pgfpathrectanglecorners{\pgfpoint{\a}{\b}}{\pgfpoint{\c}{\d}}%
+     \pgfpathmoveto{\pgfpoint{\a}{\b+(\d-\b)*0.875}}%
+     \pgfpathlineto{\pgfpoint{\c}{\b+(\d-\b)*0.875}}%
+     \pgfpathmoveto{\pgfpoint{\a}{\b+(\d-\b)*0.125}}
+     \pgfpathlineto{\pgfpoint{\c}{\b+(\d-\b)*0.125}}
+    }
+}
+
+
+
+\pgfdeclareshape{vline rectangle}{
+  % Copy some stuff from the rectangle
+  \inheritsavedanchors[from={rectangle}]
+  \inheritanchor[from={rectangle}]{center}
+  \inheritanchor[from={rectangle}]{north}
+  \inheritanchor[from={rectangle}]{south}
+  \inheritanchor[from={rectangle}]{east}
+  \inheritanchor[from={rectangle}]{west}
+  \inheritanchorborder[from={rectangle}]
+  \backgroundpath{%
+     \pgfmathsetlengthmacro\outerxsep{\pgfkeysvalueof{/pgf/outer xsep}}%
+     \pgfmathsetlengthmacro\outerysep{\pgfkeysvalueof{/pgf/outer ysep}}%
+     \pgfpointadd{\southwest}{\pgfpoint{\outerxsep}{\outerysep}}%
+     \pgfgetlastxy\a\b
+     \pgfpointadd{\northeast}{\pgfpointscale{-1}{\pgfpoint{\outerxsep}{\outerysep}}}%
+     \pgfgetlastxy\c\d
+     \pgfpathrectanglecorners{\pgfpoint{\a}{\b}}{\pgfpoint{\c}{\d}}%
+     \pgfpathmoveto{\pgfpoint{\a + (\c-\a)*0.875}{\b}}%
+     \pgfpathlineto{\pgfpoint{\a + (\c-\a)*0.875}{\d}}%
+     \pgfpathmoveto{\pgfpoint{\a + (\c-\a)*0.125}{\b}}
+     \pgfpathlineto{\pgfpoint{\a + (\c-\a)*0.125}{\d}}
+    }
+}
+
+
+\pgfdeclareshape{corner rectangle}{
+  % Copy some stuff from the rectangle
+  \inheritsavedanchors[from={rectangle}]
+  \inheritanchor[from={rectangle}]{center}
+  \inheritanchor[from={rectangle}]{north}
+  \inheritanchor[from={rectangle}]{south}
+  \inheritanchor[from={rectangle}]{east}
+  \inheritanchor[from={rectangle}]{west}
+  \inheritanchorborder[from={rectangle}]
+  \backgroundpath{%
+     \pgfmathsetlengthmacro\outerxsep{\pgfkeysvalueof{/pgf/outer xsep}}%
+     \pgfmathsetlengthmacro\outerysep{\pgfkeysvalueof{/pgf/outer ysep}}%
+     \pgfpointadd{\southwest}{\pgfpoint{\outerxsep}{\outerysep}}%
+     \pgfgetlastxy\a\b
+     \pgfpointadd{\northeast}{\pgfpointscale{-1}{\pgfpoint{\outerxsep}{\outerysep}}}%
+     \pgfgetlastxy\c\d
+     \pgfpathrectanglecorners{\pgfpoint{\a}{\b}}{\pgfpoint{\c}{\d}}%
+     \pgfpathmoveto{\pgfpoint{\a + (\c-\a)*0.8}{\b}}%
+     \pgfpathlineto{\pgfpoint{\c}{\b + (\d-\b)*0.2}}%
+     \pgfpathmoveto{\pgfpoint{\a + (\c-\a)*0.2}{\b}}
+     \pgfpathlineto{\pgfpoint{\a}{\b + (\d-\b) * 0.2}}
+     \pgfpathmoveto{\pgfpoint{\a + (\c-\a)*0.8}{\d}}%
+     \pgfpathlineto{\pgfpoint{\c}{\b + (\d-\b)*0.8}}%
+     \pgfpathmoveto{\pgfpoint{\a + (\c-\a)*0.2}{\d}}
+     \pgfpathlineto{\pgfpoint{\a}{\b + (\d-\b) * 0.8}}
+    }
+}
+
+
+
+\tikzset{
+    hlrect/.style={
+        draw,
+        hline rectangle,
+        minimum width=0.5cm,
+        minimum height=0.4cm
+    },
+    vlrect/.style={
+    draw,
+    vline rectangle,
+    minimum width = 0.5cm,
+    minimum height=0.4cm
+    },
+    clrect/.style={
+    draw,
+    corner rectangle,
+    minimum width = 0.5cm,
+    minimum height = 0.4cm
+    },
+    dsrect/.style={
+    draw,
+    dotted,
+    rectangle,
+    minimum width=0.5cm,
+    minimum height=0.4cm
+    },
+    brect/.style={
+    draw,
+    rectangle,
+    minimum width=0.4cm,
+    minimum height=0.5cm
+    }
+}
+
+\tikzstyle{param}=[rectangle, fill=blue!50, inner sep=0pt, minimum size=0.6cm]
+\tikzstyle{ret}=[rectangle, draw=black!100, inner sep=0pt, minimum size=0.6cm]
+\tikzstyle{val}=[rectangle, inner sep=0pt, minimum size=0.6cm]
+
+
+\tikzstyle{codebox} = [draw, minimum width=.2\textwidth, node distance=1cm,
+rectangle, rounded corners, inner sep=1pt, inner ysep=8pt]
+\tikzstyle{fancytitle} =[fill=lightgray, text=black, font=\footnotesize]
+
+\tikzstyle{errorbox} = [draw, minimum width=.35\textwidth, node distance=1cm,
+rectangle, rounded corners, inner sep=1pt, inner ysep=8pt]
+
+\tikzstyle{rcbox} = [draw, minimum width=.2\textwidth, node distance=1cm,
+rectangle, rounded corners, inner sep=3pt, inner ysep=3pt]
+\tikzstyle{alpha}=[hlrect, fill=blue!20]
+\tikzstyle{beta}=[vlrect, fill=red!20]
+\tikzstyle{gamma}=[clrect, fill=green!20]
+\tikzstyle{blank}=[dsrect]
+\tikzstyle{block}=[brect, fill=blue!20]
+\tikzstyle{smt}=[brect]
